@@ -11,12 +11,20 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRequestMapper prodReqMapper;
     @Autowired
     private ProductRepo productRepo;
+
+    @Override
+    public List<Product> getAllProducts() {
+        return productRepo.findAll().stream().toList();
+    }
+
     @Override
     public Product getProductById(Integer id) {
         return null;

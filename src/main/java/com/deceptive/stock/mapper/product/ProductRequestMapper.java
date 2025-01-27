@@ -29,8 +29,9 @@ public class ProductRequestMapper implements Function<ProductRequest, Product> {
             categories.add(this.categoryRepo.findById(cat)
                                    .orElseThrow(() -> new ResourceNotFoundException("Category", "Id", cat)));
         }
-        Brand brand = brandRepo.findById(productRequest.brand())
-                .orElseThrow(() -> new RuntimeException(productRequest.brand() + "not available"));
+        Brand brand = brandRepo.findByName(productRequest.brand())
+                .orElseThrow(() -> new ResourceNotFoundException("Brand", "Name", productRequest.brand()));
+
         Product product = new Product();
         product.setName(productRequest.name());
         product.setDescription(productRequest.description());

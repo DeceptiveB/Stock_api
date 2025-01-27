@@ -20,12 +20,19 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<String> getProduct(
+    @GetMapping("/")
+    public ResponseEntity<List<Product>> getProducts(
             @PathVariable(value = "id") String id
                                             ){
-        return ResponseEntity.ok().body(id);
+        return ResponseEntity.ok().body(productService.getAllProducts());
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProduct(
+            @PathVariable(value = "id") Integer id
+                                            ){
+        return ResponseEntity.ok().body(productService.getProductById(id));
+    }
+
     @PostMapping
     public ResponseEntity<Product> save(
             @Valid @RequestBody ProductRequest productRequest
