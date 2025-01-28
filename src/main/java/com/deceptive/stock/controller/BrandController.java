@@ -18,13 +18,13 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
-    @PostMapping("/")
+    @PostMapping
     private ResponseEntity<Brand> saveBrando(
             @Valid @RequestBody Brand brand){
         return ResponseEntity.ok().body(brandService.saveBrand(brand.getName()));
     }
 
-    @GetMapping("/")
+    @GetMapping
     private ResponseEntity<List<Brand>> getBrands(){
         return ResponseEntity.ok().body(brandService.getAllBrands());
     }

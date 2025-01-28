@@ -6,6 +6,8 @@ import com.deceptive.stock.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
@@ -14,5 +16,10 @@ public class CategoryServiceImpl implements CategoryService {
     public Category saveCategory(String name) {
         Category cat = new Category(name);
         return categoryRepo.save(cat);
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        return categoryRepo.findAll();
     }
 }

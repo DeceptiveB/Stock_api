@@ -41,4 +41,24 @@ public class ProductRequestMapper implements Function<ProductRequest, Product> {
 
         return product;
     }
+
+
+    public ProductRequest apply(Product product) {
+        Set<Category> categories = new HashSet<>();
+        for(Integer cat: product.getCategories()){
+            categories.add(this.categoryRepo.findById(cat)
+                                   .orElseThrow(() -> new ResourceNotFoundException("Category", "Id", cat)));
+        }
+        Brand brand = brandRepo.findByName(productRequest.brand())
+                .orElseThrow(() -> new ResourceNotFoundException("Brand", "Name", productRequest.brand()));
+
+        Product product = new Product();
+        product.setName(productRequest.name());
+        product.setDescription(productRequest.description());
+        product.setBrand(brand);
+        if (!categories.isEmpty())
+            product.setCategories(categories);
+
+        return product;
+    }
 }

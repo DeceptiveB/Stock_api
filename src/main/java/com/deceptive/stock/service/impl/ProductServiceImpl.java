@@ -38,6 +38,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getProductsByBrand(int page, int size, Integer id) {
         Pageable pageable = PageRequest.of(page, size);
-        return productRepo.findByBrandId(id, pageable);
+        return productRepo.findByBrandId(id, pageable).stream()
+                .map(product -> prodReqMapper.apply(product));
     }
 }
