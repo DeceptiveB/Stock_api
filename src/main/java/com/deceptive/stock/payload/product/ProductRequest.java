@@ -1,4 +1,4 @@
-package com.deceptive.stock.payload;
+package com.deceptive.stock.payload.product;
 
 import java.util.Optional;
 import java.util.Set;

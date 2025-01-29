@@ -1,13 +1,11 @@
 package com.deceptive.stock.controller;
 
 import com.deceptive.stock.model.Product;
-import com.deceptive.stock.payload.ProductRequest;
+import com.deceptive.stock.payload.product.ProductRequest;
 import com.deceptive.stock.service.ProductService;
 import com.deceptive.stock.utils.AppConstants;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

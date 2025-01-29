@@ -1,10 +1,8 @@
 package com.deceptive.stock.service;
 
 import com.deceptive.stock.model.Product;
-import com.deceptive.stock.payload.ProductRequest;
+import com.deceptive.stock.payload.product.ProductRequest;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

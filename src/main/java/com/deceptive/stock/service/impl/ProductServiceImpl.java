@@ -1,8 +1,11 @@
 package com.deceptive.stock.service.impl;
 
 import com.deceptive.stock.mapper.product.ProductRequestMapper;
+import com.deceptive.stock.mapper.product.ProductResponseMapper;
 import com.deceptive.stock.model.Product;
-import com.deceptive.stock.payload.ProductRequest;
+import com.deceptive.stock.payload.PagedResponse;
+import com.deceptive.stock.payload.product.ProductRequest;
+import com.deceptive.stock.payload.product.ProductResponse;
 import com.deceptive.stock.repo.ProductRepo;
 import com.deceptive.stock.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +15,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+    @Autowired
+    private ProductResponseMapper prodResMapper;
     @Autowired
     private ProductRequestMapper prodReqMapper;
     @Autowired
@@ -36,9 +42,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getProductsByBrand(int page, int size, Integer id) {
+    public PagedResponse<Product> getProductsByBrand(int page, int size, Integer id) {
         Pageable pageable = PageRequest.of(page, size);
-        return productRepo.findByBrandId(id, pageable).stream()
-                .map(product -> prodReqMapper.apply(product));
+        List<ProductResponse> products = productRepo.findByBrandId(id, pageable)
+                .stream()
+                .map(product -> prodResMapper.apply(product))
+                .collect(Collectors.toCollection());
+        return PagedResponse<ProductResponse>
     }
 }
