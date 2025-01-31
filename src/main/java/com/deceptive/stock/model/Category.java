@@ -26,7 +26,7 @@ public class Category {
 
     private String description;
 
-    //@JsonIgnore
+    @JsonIgnore
     @ManyToMany(mappedBy = "categories")
     private Set<Product> products;
 

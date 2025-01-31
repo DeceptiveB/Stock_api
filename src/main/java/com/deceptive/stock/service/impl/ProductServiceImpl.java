@@ -8,6 +8,8 @@ import com.deceptive.stock.payload.product.ProductRequest;
 import com.deceptive.stock.payload.product.ProductResponse;
 import com.deceptive.stock.repo.ProductRepo;
 import com.deceptive.stock.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,10 +17,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+    private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
     @Autowired
     private ProductResponseMapper prodResMapper;
     @Autowired
@@ -42,12 +44,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PagedResponse<Product> getProductsByBrand(int page, int size, Integer id) {
+    public PagedResponse<ProductResponse> getProductsByBrand(int page, int size, Integer id) {
         Pageable pageable = PageRequest.of(page, size);
-        List<ProductResponse> products = productRepo.findByBrandId(id, pageable)
-                .stream()
+        Page<Product> productsPage = productRepo.findByBrandId(id, pageable);
+        List<ProductResponse> products = productsPage.stream()
                 .map(product -> prodResMapper.apply(product))
-                .collect(Collectors.toCollection());
-        return PagedResponse<ProductResponse>
+                .toList();
+        return new PagedResponse<>(products, productsPage.getNumber(),
+                                   productsPage.getSize(),
+                                   productsPage.getTotalElements(),
+                                   productsPage.getTotalPages(),
+                                   productsPage.isLast());
     }
 }

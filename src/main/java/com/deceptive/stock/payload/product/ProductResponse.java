@@ -10,7 +10,7 @@ public record ProductResponse(
         String name,
         String brand,
         String description,
-        Set<Category> categories,
+        List<Integer> categories,
         int quantity
 ) {
 }
