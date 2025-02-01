@@ -1,6 +1,7 @@
 package com.deceptive.stock.payload.product;
 
 import com.deceptive.stock.model.Category;
+import com.deceptive.stock.payload.category.CategoryResponse;
 
 import java.util.List;
 import java.util.Locale;
@@ -10,7 +11,7 @@ public record ProductResponse(
         String name,
         String brand,
         String description,
-        List<Integer> categories,
+        List<CategoryResponse> categories,
         int quantity
 ) {
 }
