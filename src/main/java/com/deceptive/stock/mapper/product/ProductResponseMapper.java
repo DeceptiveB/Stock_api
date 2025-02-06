@@ -1,8 +1,8 @@
 package com.deceptive.stock.mapper.product;
 
 import com.deceptive.stock.mapper.category.CategoryResponseMapper;
-import com.deceptive.stock.model.Category;
 import com.deceptive.stock.model.Product;
+import com.deceptive.stock.payload.category.CategoryResponse;
 import com.deceptive.stock.payload.product.ProductResponse;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class ProductResponseMapper implements Function<Product, ProductResponse>
                 product.getBrand().getName(),
                 product.getDescription(),
                 product.getCategories().stream().map(
-                        category -> categoryResponseMapper.apply(category))
+                        CategoryResponse::new)
                         .toList(),
                 product.getQuantity());
     }

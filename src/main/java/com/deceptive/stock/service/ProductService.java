@@ -16,4 +16,5 @@ public interface ProductService {
     Product saveProduct(ProductRequest productRequest);
 
     PagedResponse<ProductResponse> getProductsByBrand(int page, int size, Integer id);
+    PagedResponse<ProductResponse> getProductsByCategory(int page, int size, Integer id);
 }

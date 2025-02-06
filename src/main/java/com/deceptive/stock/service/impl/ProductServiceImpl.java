@@ -56,4 +56,18 @@ public class ProductServiceImpl implements ProductService {
                                    productsPage.getTotalPages(),
                                    productsPage.isLast());
     }
+
+    @Override
+    public PagedResponse<ProductResponse> getProductsByCategory(int page, int size, Integer id) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productsPage = productRepo.findByCategoriesId(id, pageable);
+        List<ProductResponse> products = productsPage.stream()
+                .map(product -> prodResMapper.apply(product))
+                .toList();
+        return new PagedResponse<>(products, productsPage.getNumber(),
+                productsPage.getSize(),
+                productsPage.getTotalElements(),
+                productsPage.getTotalPages(),
+                productsPage.isLast());
+    }
 }

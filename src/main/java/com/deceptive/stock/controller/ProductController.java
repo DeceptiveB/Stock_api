@@ -20,10 +20,8 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<Product>> getProducts(
-            @PathVariable(value = "id") String id
-                                            ){
+    @GetMapping
+    public ResponseEntity<List<Product>> getProducts(){
         return ResponseEntity.ok().body(productService.getAllProducts());
     }
     @GetMapping("/{id}")
@@ -47,5 +45,14 @@ public class ProductController {
             @PathVariable(name = "id") Integer id
                                                                             ){
         return ResponseEntity.ok().body(productService.getProductsByBrand(page, size, id));
+    }
+
+    @GetMapping("/category/{id}")
+    public ResponseEntity<PagedResponse<ProductResponse>> getProductsByCategory(
+            @RequestParam(value = "page", required = false, defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = AppConstants.DEFAULT_PAGE_SIZE) Integer size,
+            @PathVariable(name = "id") Integer id
+    ){
+        return ResponseEntity.ok().body(productService.getProductsByCategory(page, size, id));
     }
 }
