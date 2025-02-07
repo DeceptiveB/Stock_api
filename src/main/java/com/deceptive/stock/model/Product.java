@@ -36,7 +36,7 @@ public class Product {
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
-    private int quantity;
+    private int total_stock;
 
     @ManyToMany
     @JoinTable(
@@ -79,12 +79,12 @@ public class Product {
                    String description,
                    Brand brand,
                    Set<Category> categories,
-                   int quantity) {
+                   int total_stock) {
         this.name = name;
         this.brand = brand;
         this.description = description;
         this.categories = categories;
-        this.quantity = quantity;
+        this.total_stock = total_stock;
     }
 
     public Product(
@@ -93,14 +93,14 @@ public class Product {
             String description,
             Brand brand,
             Set<Category> categories,
-            int quantity,
+            int total_stock,
             Set<Entry> entries,
             Set<Exit> exits) {
         this.id = id;
         this.name = name;
         this.categories = categories;
         this.brand = brand;
-        this.quantity = quantity;
+        this.total_stock = total_stock;
         this.entries = entries;
         this.exits = exits;
     }
@@ -109,13 +109,13 @@ public class Product {
                    String description,
                    Brand brand,
                    Set<Category> categories,
-                   int quantity,
+                   int total_stock,
                    Set<Entry> entries,
                    Set<Exit> exits) {
         this.name = name;
         this.categories = categories;
         this.brand = brand;
-        this.quantity = quantity;
+        this.total_stock = total_stock;
         this.entries = entries;
         this.exits = exits;
     }
@@ -160,12 +160,12 @@ public class Product {
         this.categories = categories;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getTotalStock() {
+        return total_stock;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setTotalStock(int total_stock) {
+        this.total_stock = total_stock;
     }
 
     public Set<Entry> getEntries() {
