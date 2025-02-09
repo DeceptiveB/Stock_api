@@ -26,6 +26,6 @@ public class ProductResponseMapper implements Function<Product, ProductResponse>
                 product.getCategories().stream().map(
                         CategoryResponse::new)
                         .toList(),
-                product.getQuantity());
+                product.getTotalStock());
     }
 }
