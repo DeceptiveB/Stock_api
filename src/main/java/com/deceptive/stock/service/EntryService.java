@@ -6,5 +6,5 @@ import com.deceptive.stock.payload.entry.EntryRequest;
 import java.util.Optional;
 
 public interface EntryService {
-    Optional<Entry> addEntry(EntryRequest req);
+    Entry addEntry(EntryRequest req);
 }
