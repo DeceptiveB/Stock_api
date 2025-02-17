@@ -16,6 +16,7 @@ public class EntryServiceImpl implements EntryService {
     @Autowired
     private EntryRepo entryRepo;
 
+    @Autowired
     private EntryRequestMapper entryReqMaper;
 
     @Override

@@ -6,6 +6,8 @@ import jakarta.persistence.MappedSuperclass;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
+import java.time.Instant;
+
 @MappedSuperclass
 @JsonIgnoreProperties(
         value = { "createdBY", "updatedBy" },
@@ -20,4 +22,25 @@ public class UserDateAudit extends DateAudit{
 
     @LastModifiedBy
     private Integer updatedBy;
+
+
+    public UserDateAudit(Instant createdAt, Instant updatedAt) {
+        super(createdAt, updatedAt);
+    }
+
+    public Integer getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Integer createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Integer getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(Integer updatedBy) {
+        this.updatedBy = updatedBy;
+    }
 }
