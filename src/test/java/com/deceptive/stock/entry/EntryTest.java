@@ -33,7 +33,7 @@ public class EntryTest {
         Product prod = prodRepo.findById(1)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "id", 1));
         Entry entry = new Entry(prod,7);
-        this.mockMvc.perform(post("")
+        this.mockMvc.perform(post("/api/entry")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(prod)))
                 .andExpect(status().isCreated())
