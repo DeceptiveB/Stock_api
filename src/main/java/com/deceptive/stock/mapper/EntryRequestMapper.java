@@ -21,7 +21,7 @@ public class EntryRequestMapper implements Function<EntryRequest, Entry> {
                         "Product", "Id", entryRequest.product_id()));
         return new Entry(
                 product,
-                entryRequest.product_id()
+                entryRequest.quantity()
         );
     }
 }
