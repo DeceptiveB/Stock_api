@@ -1,5 +1,6 @@
 package com.deceptive.stock.service.impl;
 
+import com.deceptive.stock.exception.ResourceNotFoundException;
 import com.deceptive.stock.mapper.product.ProductRequestMapper;
 import com.deceptive.stock.mapper.product.ProductResponseMapper;
 import com.deceptive.stock.model.Product;
@@ -35,7 +36,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Integer id) {
-        return null;
+
+        return productRepo.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Product", "Id", id));
     }
 
     @Override
@@ -70,4 +73,14 @@ public class ProductServiceImpl implements ProductService {
                 productsPage.getTotalPages(),
                 productsPage.isLast());
     }
+
+    @Override
+    public void deleteProduct(Integer id) {
+        Product product = productRepo.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Product", "Id", id)
+                                                            );
+        productRepo.delete(product);
+    }
+
+
 }

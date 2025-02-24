@@ -40,8 +40,12 @@ public class ProductController {
 
     @GetMapping("/brand/{id}")
     public ResponseEntity<PagedResponse<ProductResponse>> getProductsByBrand(
-            @RequestParam(value = "page", required = false, defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) Integer page,
-            @RequestParam(value = "size", required = false, defaultValue = AppConstants.DEFAULT_PAGE_SIZE) Integer size,
+            @RequestParam(value = "page",
+                          required = false,
+                          defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) Integer page,
+            @RequestParam(value = "size",
+                          required = false,
+                          defaultValue = AppConstants.DEFAULT_PAGE_SIZE) Integer size,
             @PathVariable(name = "id") Integer id
                                                                             ){
         return ResponseEntity.ok().body(productService.getProductsByBrand(page, size, id));
@@ -49,10 +53,22 @@ public class ProductController {
 
     @GetMapping("/category/{id}")
     public ResponseEntity<PagedResponse<ProductResponse>> getProductsByCategory(
-            @RequestParam(value = "page", required = false, defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) Integer page,
-            @RequestParam(value = "size", required = false, defaultValue = AppConstants.DEFAULT_PAGE_SIZE) Integer size,
+            @RequestParam(value = "page",
+                          required = false,
+                          defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) Integer page,
+            @RequestParam(value = "size",
+                          required = false,
+                          defaultValue = AppConstants.DEFAULT_PAGE_SIZE) Integer size,
             @PathVariable(name = "id") Integer id
     ){
         return ResponseEntity.ok().body(productService.getProductsByCategory(page, size, id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(
+            @PathVariable(value = "id") Integer id
+                                             ){
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
     }
 }

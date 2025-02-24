@@ -17,4 +17,6 @@ public interface ProductService {
 
     PagedResponse<ProductResponse> getProductsByBrand(int page, int size, Integer id);
     PagedResponse<ProductResponse> getProductsByCategory(int page, int size, Integer id);
+
+    void deleteProduct(Integer id);
 }
