@@ -1,4 +1,4 @@
-package com.deceptive.stock.mapper;
+package com.deceptive.stock.mapper.entry;
 
 import com.deceptive.stock.exception.ResourceNotFoundException;
 import com.deceptive.stock.model.Entry;
