@@ -1,6 +1,7 @@
 
 package com.deceptive.stock.service.impl;
 
+import com.deceptive.stock.exception.ResourceNotFoundException;
 import com.deceptive.stock.mapper.entry.EntryRequestMapper;
 import com.deceptive.stock.mapper.entry.EntryResponseMapper;
 import com.deceptive.stock.model.Entry;
@@ -49,5 +50,12 @@ public class EntryServiceImpl implements EntryService {
                                    pageEntry.getTotalElements(),
                                    pageEntry.getTotalPages(),
                                    pageEntry.isLast());
+    }
+
+    @Override
+    public EntryResponse getEntryById(Integer id) {
+        Entry entry = entryRepo.findById(id).
+                orElseThrow(() -> new ResourceNotFoundException("Entry", "Id", id));
+        return entryResMaper.apply(entry);
     }
 }

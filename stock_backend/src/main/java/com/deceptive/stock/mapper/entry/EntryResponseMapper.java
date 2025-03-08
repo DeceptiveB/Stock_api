@@ -24,6 +24,7 @@ public class EntryResponseMapper implements Function<Entry, EntryResponse> {
                         entry.getProduct().getId(),
                         entry.getProduct().getName());
         return new EntryResponse(
+                entry.getId(),
                 entry.getQuantity(),
                 product
         );

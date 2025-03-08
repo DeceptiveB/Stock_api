@@ -24,7 +24,7 @@ public class EntryController {
     }
 
     @GetMapping
-    public ResponseEntity<PagedResponse<EntryResponse>> save(
+    public ResponseEntity<PagedResponse<EntryResponse>> getEntries(
             @RequestParam(value = "page",
                           required = false,
                           defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) Integer page,
@@ -32,5 +32,11 @@ public class EntryController {
                           required = false,
                           defaultValue = AppConstants.DEFAULT_PAGE_SIZE) Integer size){
         return ResponseEntity.ok().body(entryService.getEntries(page, size));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EntryResponse> getEntryById(
+            @PathVariable(name = "id") Integer id) {
+        return ResponseEntity.ok().body(entryService.getEntryById(id));
     }
 }

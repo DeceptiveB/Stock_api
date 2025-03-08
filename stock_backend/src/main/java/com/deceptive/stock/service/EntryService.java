@@ -11,4 +11,6 @@ public interface EntryService {
     Entry addEntry(EntryRequest req);
 
     PagedResponse<EntryResponse> getEntries(int page, int size);
+
+    EntryResponse getEntryById(Integer id);
 }
