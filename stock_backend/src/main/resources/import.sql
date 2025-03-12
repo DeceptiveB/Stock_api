@@ -1,7 +1,3 @@
-INSERT INTO brand(id, name) VALUES(1, 'LG'), (2, 'Dell'), (3, 'Sony'), (4, 'Lenovo'), (5, 'Macallan');
-
-INSERT INTO category(id, name) VALUES(1, 'Computers'), (2, 'TV'), (3, 'Monitors'), (4, 'Liquors');
-
 -- INSERT entry --
 CREATE OR REPLACE FUNCTION update_totalstock_after_insertentry() RETURNS TRIGGER AS
 $BODY$

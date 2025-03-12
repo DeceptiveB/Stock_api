@@ -12,7 +12,7 @@ import { HttpClient } from "@angular/common/http";
     template: `
     <div>
         <div>
-            <h1>asdfasdf</h1>
+            <h1>Entries</h1>
         </div>
         @for (entry of entries; track entry.id) {
             <app-entry-item [entry]="entry"></app-entry-item>
@@ -33,8 +33,9 @@ export default class EntryListComponent implements OnInit {
         const size = 5;
         this.entryService.getEntries(page, size).subscribe({
             next: (response) => {
-                console.log(response)
+                console.log(response.content[0].quantity)
                 this.entries = response.content
+                console.log(this.entries[0].product)
             },
             error:  (error) => console.log(error)
             

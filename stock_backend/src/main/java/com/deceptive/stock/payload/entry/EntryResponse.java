@@ -1,8 +1,10 @@
 package com.deceptive.stock.payload.entry;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record EntryResponse(
         Integer id,
         int quantity,
-        EntryProductResponse entryProductResponse
+        @JsonProperty("product") EntryProductResponse entryProductResponse
 ) {
 }

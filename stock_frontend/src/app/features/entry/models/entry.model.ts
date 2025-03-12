@@ -1,5 +1,8 @@
+import { Product } from "./product.model";
+
 export interface Entry {
     id: number;
     name: string;
-    email: string;
+    quantity: number;
+    product: Product
 }

@@ -8,8 +8,8 @@ import { HttpClient } from "@angular/common/http";
     {
         selector: "app-entry-item",
         template: `
-            <div>
-                {{ entry.name }}
+            <div class="card">
+                {{ entry.id }}
             </div>
         `,
     }
