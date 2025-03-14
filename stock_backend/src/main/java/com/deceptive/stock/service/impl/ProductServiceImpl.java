@@ -12,15 +12,25 @@ import com.deceptive.stock.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    @Value("${app.image.directory}")
+    private String imageDirectory;
+
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
     @Autowired
     private ProductResponseMapper prodResMapper;
@@ -43,7 +53,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product saveProduct(ProductRequest productRequest) {
-        return productRepo.save(prodReqMapper.apply(productRequest));
+        Product product = prodReqMapper.apply(productRequest);
+        MultipartFile file = productRequest.image();
+
+        if (file != null && !file.isEmpty()) {
+            String filePath = imageDirectory + file.getOriginalFilename();
+            try {
+                Files.copy(file.getInputStream(), Path.of(filePath), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            product.setImagePath(filePath);
+        }
+
+        Product prod = productRepo.save(product);;
+
+        return prod;
     }
 
     @Override

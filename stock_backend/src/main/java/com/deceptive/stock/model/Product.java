@@ -38,6 +38,8 @@ public class Product {
 
     private int total_stock;
 
+    private String imagePath;
+
     @ManyToMany
     @JoinTable(
             name="product_entry",
@@ -58,7 +60,18 @@ public class Product {
     }
 
     public Product(String name,
+                   String description,
                    Brand brand,
+                   Set<Category> categories) {
+        this.name = name;
+        this.description = description;
+        this.brand = brand;
+        this.categories = categories;
+    }
+
+    public Product(String name,
+                   Brand brand,
+                   String imagePath,
                    Set<Category> categories,
                    String description){
         this.name = name;
@@ -68,9 +81,12 @@ public class Product {
     }
 
     public Product(String name,
+                   Set<Category> categories,
+                   String imagePath,
                    Brand brand,
                    String description){
         this.name = name;
+        this.imagePath = imagePath;
         this.brand = brand;
         this.description = description;
     }
@@ -78,9 +94,11 @@ public class Product {
     public Product(String name,
                    String description,
                    Brand brand,
+                   String imagePath,
                    Set<Category> categories,
                    int total_stock) {
         this.name = name;
+        this.imagePath = imagePath;
         this.brand = brand;
         this.description = description;
         this.categories = categories;
@@ -94,11 +112,13 @@ public class Product {
             Brand brand,
             Set<Category> categories,
             int total_stock,
+            String imagePath,
             Set<Entry> entries,
             Set<Exit> exits) {
         this.id = id;
         this.name = name;
         this.categories = categories;
+        this.imagePath = imagePath;
         this.brand = brand;
         this.total_stock = total_stock;
         this.entries = entries;
@@ -110,11 +130,13 @@ public class Product {
                    Brand brand,
                    Set<Category> categories,
                    int total_stock,
+                   String imagePath,
                    Set<Entry> entries,
                    Set<Exit> exits) {
         this.name = name;
         this.categories = categories;
         this.brand = brand;
+        this.imagePath = imagePath;
         this.total_stock = total_stock;
         this.entries = entries;
         this.exits = exits;
@@ -166,6 +188,14 @@ public class Product {
 
     public void setTotalStock(int total_stock) {
         this.total_stock = total_stock;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public Set<Entry> getEntries() {
