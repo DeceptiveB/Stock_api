@@ -1,12 +1,13 @@
 import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 
 @Component(
     {
         selector: "app-edit-entry",
         template: `
         <div>
-            <form (ngSubmit)="submitForm()">
+            <form [formGroup]="uploadForm" 
+            (ngSubmit)="submitForm()">
                 <div>
                     <label for="file">File</label>
                     <input
@@ -41,6 +42,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
             </form>
         </div>
         `,
+        imports: [ReactiveFormsModule],
     }
 )
 
@@ -57,9 +59,6 @@ export default class EditInsertEntryComponent {
 
     submitForm(){
         if (this.uploadForm.invalid) return;
-
-        const file
-
     }
 
     onFileSelected(e: Event){

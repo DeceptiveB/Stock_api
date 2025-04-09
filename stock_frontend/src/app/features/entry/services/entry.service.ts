@@ -38,11 +38,11 @@ export class EntryService {
     return this.http.get<ApiPageResponse<Entry[]>>(apiUrl, {params});
   }
 
-  insertEntry(): Observable<ApiPageResponse<Entry[]>> {
-    var apiUrl = this.apiUrl + "/api/entry";
-    console.log("asdfasdf");
-    const formData = new FormData()
-
-    return this.http.post<ApiPageResponse<Entry[]>>(apiUrl);
-  }
+  //insertEntry(): Observable<ApiPageResponse<Entry[]>> {
+  //  var apiUrl = this.apiUrl + "/api/entry";
+  //  console.log("asdfasdf");
+  //  const formData = new FormData()
+//
+  //  return this.http.post<ApiPageResponse<Entry[]>>(apiUrl);
+  //}
 }

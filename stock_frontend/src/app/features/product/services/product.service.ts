@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { environment } from '../../../../environment/environment';
@@ -41,13 +41,17 @@ export class ProductService {
     insertProduct(req: ProductRequest): Observable<number> {
         const formData = new FormData();
 
+        const data = {
+            name: req.name,
+            brand: req.brand,
+            description: req.brand
+        }
+        formData.append("data", JSON.stringify(data))
         formData.append("image", req.image)
-        formData.append("name", req.name)
-        formData.append("description", req.description)
-        formData.append("brand", req.brand)
 
         var apiUrl = this.apiUrl + "/api/entry";
-        console.log("asdfasdf");
+
+        console.log(formData);
 
         return this.http.post<any>(apiUrl, formData, {
             reportProgress: true,
