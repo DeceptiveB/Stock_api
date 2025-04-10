@@ -61,6 +61,7 @@ import { ImagePreviewProduct } from "../../entry/components/image-preview.compon
 export default class EditInsertProductComponent {
     uploadForm: FormGroup;
     uploadProgress:number = 0;
+    selectedFile!: File;
     imagePreview: string | ArrayBuffer | null = null;
     constructor(private fb: FormBuilder, private productService: ProductService){
         this.uploadForm = this.fb.group(
@@ -77,23 +78,24 @@ export default class EditInsertProductComponent {
         if (this.uploadForm.invalid) return;
 
         const productRequest: ProductRequest = {
-            image: this.uploadForm.get("image")?.value,
+            image: this.selectedFile,
             name: this.uploadForm.get("name")?.value,
             description: this.uploadForm.get("description")?.value,
             brand: this.uploadForm.get("brand")?.value,
+            categories: []
         }
 
         this.productService.insertProduct(productRequest).subscribe({
             next: (progress) => this.uploadProgress = progress,
             error: (error) => console.log('Request failed', error)
         });
-
     }
 
     onFileSelected(e: Event){
         const fileInput = e.target as HTMLInputElement;
         if(fileInput?.files?.length){
             const file = fileInput.files[0];
+            this.selectedFile = file;
             this.uploadForm.patchValue({file})
             const reader = new FileReader();
             reader.onload = () => {

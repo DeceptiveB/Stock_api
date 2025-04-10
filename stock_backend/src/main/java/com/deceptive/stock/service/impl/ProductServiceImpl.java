@@ -52,18 +52,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product saveProduct(ProductRequest productRequest) {
+    public Product saveProduct(ProductRequest productRequest, MultipartFile file) {
         Product product = prodReqMapper.apply(productRequest);
-        MultipartFile file = productRequest.image();
 
         if (file != null && !file.isEmpty()) {
             String filePath = imageDirectory + file.getOriginalFilename();
+            String uniqueFileName = System.currentTimeMillis() + "_" + filePath;
             try {
                 Files.copy(file.getInputStream(), Path.of(filePath), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            product.setImagePath(filePath);
+            product.setImagePath(uniqueFileName);
         }
 
         Product prod = productRepo.save(product);;

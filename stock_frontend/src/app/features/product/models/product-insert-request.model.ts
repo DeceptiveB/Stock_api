@@ -3,4 +3,5 @@ export interface ProductRequest {
     name: string;
     brand: string;
     description: string;
+    categories: []
 }

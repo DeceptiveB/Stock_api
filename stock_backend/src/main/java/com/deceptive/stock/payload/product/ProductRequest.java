@@ -9,8 +9,7 @@ public record ProductRequest(
         String name,
         String brand,
         Optional<Set<Integer>> categories,
-        String description,
-        MultipartFile image
+        String description
 ) {
 
 }

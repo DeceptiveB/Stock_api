@@ -44,12 +44,13 @@ export class ProductService {
         const data = {
             name: req.name,
             brand: req.brand,
-            description: req.brand
+            description: req.brand,
+            categories: []
         }
+        formData.append("image", req.image);
         formData.append("data", JSON.stringify(data))
-        formData.append("image", req.image)
 
-        var apiUrl = this.apiUrl + "/api/entry";
+        var apiUrl = this.apiUrl + "/api/product";
 
         console.log(formData);
 
