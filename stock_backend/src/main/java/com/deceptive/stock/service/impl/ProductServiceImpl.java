@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
@@ -40,8 +41,21 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepo productRepo;
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepo.findAll().stream().toList();
+    public PagedResponse<ProductResponse> getAllProducts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productPage = productRepo.findAll(pageable);
+        List<ProductResponse> productResponses = productPage.
+                stream().
+                map(product -> prodResMapper.apply(product)).
+                toList();
+        return new PagedResponse<>(
+                productResponses,
+                productPage.getNumber(),
+                productPage.getSize(),
+                productPage.getTotalElements(),
+                productPage.getTotalPages(),
+                productPage.isLast()
+                );
     }
 
     @Override
@@ -56,8 +70,13 @@ public class ProductServiceImpl implements ProductService {
         Product product = prodReqMapper.apply(productRequest);
 
         if (file != null && !file.isEmpty()) {
-            String filePath = imageDirectory + file.getOriginalFilename();
-            String uniqueFileName = System.currentTimeMillis() + "_" + filePath;
+            try {
+                Files.createDirectories(Paths.get("uploads"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            String uniqueFileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            String filePath = imageDirectory + uniqueFileName;
             try {
                 Files.copy(file.getInputStream(), Path.of(filePath), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {

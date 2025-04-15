@@ -25,8 +25,14 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getProducts(){
-        return ResponseEntity.ok().body(productService.getAllProducts());
+    public ResponseEntity<PagedResponse<ProductResponse>> getProducts(
+            @RequestParam(value = "page",
+                          required = false,
+                          defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) Integer page,
+            @RequestParam(value = "size",
+                          required = false,
+                          defaultValue = AppConstants.DEFAULT_PAGE_SIZE) Integer size){
+        return ResponseEntity.ok().body(productService.getAllProducts(page, size));
     }
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(

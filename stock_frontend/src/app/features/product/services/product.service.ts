@@ -4,6 +4,8 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 import { environment } from '../../../../environment/environment';
 import { ApiPageResponse } from '../../models/apipage.model';
 import { ProductRequest } from '../models/product-insert-request.model';
+import { Product } from '../../entry/models/product.model';
+import { ProductListItem } from '../models/product-list-item.model';
 
 @Injectable({
     providedIn: 'root',
@@ -37,6 +39,27 @@ export class ProductService {
     //     }
     //     return this.http.get<ApiPageResponse<Entry[]>>(apiUrl, {params});
     //   }
+    getAllProducts(page: number, size: number){
+        var apiUrl = this.apiUrl + "/api/product";
+
+        let params = new HttpParams();
+        if(page){
+          params = params.append('page', page);
+        }
+        else {
+          params = params.append('page', 0);
+        }
+    
+        if(size){
+          params = params.append('size', size);
+        }
+        else {
+          params = params.append('size', 5);
+        }
+
+        return this.http.get<ApiPageResponse<ProductListItem[]>>(apiUrl, {params});
+          
+    }
 
     insertProduct(req: ProductRequest): Observable<number> {
         const formData = new FormData();

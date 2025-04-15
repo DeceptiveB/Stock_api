@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface ProductService {
-    List<Product> getAllProducts();
+    PagedResponse<ProductResponse> getAllProducts(int page, int size);
 
     Product getProductById(Integer id);
 

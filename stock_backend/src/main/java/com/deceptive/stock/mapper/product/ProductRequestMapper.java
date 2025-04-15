@@ -25,7 +25,8 @@ public class ProductRequestMapper implements Function<ProductRequest, Product> {
     @Override
     public Product apply(ProductRequest productRequest) {
         Set<Category> categories = new HashSet<>();
-        for(Integer cat: productRequest.categories().orElse(new HashSet<>())){
+        Set<Integer> productCats = productRequest.categories() != null ? productRequest.categories() : Set.of();
+        for(Integer cat: productCats){
             categories.add(this.categoryRepo.findById(cat)
                                    .orElseThrow(() -> new ResourceNotFoundException("Category", "Id", cat)));
         }
