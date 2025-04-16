@@ -8,18 +8,28 @@ import { CommonModule } from "@angular/common";
     selector: 'app-product-list',
     styles: [],
     template: `
-    <div *ngIf="loading">
-        Cargando
+    <div class="container mt-5">
+        <div *ngIf="loading">
+            Cargando
+        </div>
+        <div *ngIf="!loading">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Brand</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for (product of products; track $index) {
+                        <tr app-product-list-item [product]="product"></tr>
+                }
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div *ngIf="!loading">
-        <table class="table">
-            <tbody>
-            @for (product of products; track $index) {
-                    <app-product-list-item [product]="product"/>
-            }
-            </tbody>
-        </table>
-    </div>
+    
     `,
     imports: [ProductListItemComponent, CommonModule]
 })

@@ -5,6 +5,7 @@ import com.deceptive.stock.model.Product;
 import com.deceptive.stock.payload.category.CategoryResponse;
 import com.deceptive.stock.payload.product.ProductResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -19,6 +20,10 @@ public class ProductResponseMapper implements Function<Product, ProductResponse>
 
     @Override
     public ProductResponse apply(Product product) {
+        String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/uploads/")
+                .path(product.getImagePath())
+                .toUriString();
         return new ProductResponse(
                 product.getName(),
                 product.getBrand().getName(),
@@ -26,6 +31,7 @@ public class ProductResponseMapper implements Function<Product, ProductResponse>
                 product.getCategories().stream().map(
                         CategoryResponse::new)
                         .toList(),
-                product.getTotalStock());
+                product.getTotalStock(),
+                fileUrl);
     }
 }

@@ -12,6 +12,7 @@ public record ProductResponse(
         String brand,
         String description,
         List<CategoryResponse> categories,
-        int quantity
+        int quantity,
+        String image
 ) {
 }

@@ -2,17 +2,26 @@ import { Component, Input } from "@angular/core";
 import { ProductListItem } from "../models/product-list-item.model";
 
 @Component({
-    selector: 'app-product-list-item',
-    styles: [],
+    selector: '[app-product-list-item]',
+    styles: `
+        .img-product {
+            width: 120px;
+        }
+
+        .td-image {
+            width: fit-content;
+        }
+    `,
     template: `
-        <tr>
-            <td>
-                {{product.name}}
-            </td>
-            <td>
-                {{ product.brand }}
-            </td>
-        </tr>
+        <td class="td-image">
+            <img class="img-product" src="{{ product.image }}" alt="">
+        </td>
+        <td>
+            {{product.name}}
+        </td>
+        <td>
+            {{ product.brand }}
+        </td>
     `,
 })
 
