@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { ProductRequest } from "../models/product-insert-request.model";
 import { ProductService } from "../services/product.service";
 import { ImagePreviewProduct } from "../../entry/components/image-preview.component";
+import { ActivatedRoute } from "@angular/router";
+import ProductListItemComponent from "./product-list-item.component";
 
 @Component(
     {
@@ -63,7 +65,9 @@ export default class EditInsertProductComponent {
     uploadProgress:number = 0;
     selectedFile!: File;
     imagePreview: string | ArrayBuffer | null = null;
-    constructor(private fb: FormBuilder, private productService: ProductService){
+    loading = true;
+
+    constructor(private route: ActivatedRoute, private fb: FormBuilder, private productService: ProductService){
         this.uploadForm = this.fb.group(
             {
                 image: [null, Validators.required],
@@ -72,6 +76,19 @@ export default class EditInsertProductComponent {
                 description: [null, Validators.required],
             }
         )
+    }
+
+    ngOnInit(): void {
+        //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+        //Add 'implements OnInit' to the class.
+        const id = this.route.snapshot.paramMap.get('productId');
+        if(id){
+            this.loading = false;
+            this.productService.getProductById(id).subscribe({
+                next: (response) => console.log(response),
+                error: (error) => console.log('Request failed', error)
+            });
+        }
     }
 
     submitForm(){
@@ -89,6 +106,10 @@ export default class EditInsertProductComponent {
             next: (progress) => this.uploadProgress = progress,
             error: (error) => console.log('Request failed', error)
         });
+    }
+
+    fillProductForm(product: ProductListItemComponent){
+        
     }
 
     onFileSelected(e: Event){

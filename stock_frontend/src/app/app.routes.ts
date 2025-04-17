@@ -15,6 +15,10 @@ export const routes: Routes = [
         loadComponent: () => EditInsertProductComponent,
     },
     {
+        path: "product/edit/:productId",
+        loadComponent: () => EditInsertProductComponent,
+    },
+    {
         path: "product",
         loadComponent: () => ProductListComponent,
     }

@@ -39,6 +39,12 @@ export class ProductService {
     //     }
     //     return this.http.get<ApiPageResponse<Entry[]>>(apiUrl, {params});
     //   }
+    getProductById(id: string){
+        var apiUrl = this.apiUrl + "/api/product/"+id;
+
+        return this.http.get<ApiPageResponse<ProductListItem[]>>(apiUrl);
+          
+    }
     getAllProducts(page: number, size: number){
         var apiUrl = this.apiUrl + "/api/product";
 

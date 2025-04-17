@@ -1,5 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { ProductListItem } from "../models/product-list-item.model";
+import { RouterLink, RouterOutlet } from "@angular/router";
 
 @Component({
     selector: '[app-product-list-item]',
@@ -22,7 +23,11 @@ import { ProductListItem } from "../models/product-list-item.model";
         <td>
             {{ product.brand }}
         </td>
+        <td>
+            <a class="btn btn-primary" [routerLink]="['/product/edit', product.id]" routerLinkActive="router-link-active">Editar</a>
+        </td>
     `,
+    imports: [RouterLink]
 })
 
 export default class ProductListItemComponent {
