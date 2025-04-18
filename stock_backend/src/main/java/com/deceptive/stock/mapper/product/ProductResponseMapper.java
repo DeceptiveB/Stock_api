@@ -25,6 +25,7 @@ public class ProductResponseMapper implements Function<Product, ProductResponse>
                 .path(product.getImagePath())
                 .toUriString();
         return new ProductResponse(
+                product.getId(),
                 product.getName(),
                 product.getBrand().getName(),
                 product.getDescription(),

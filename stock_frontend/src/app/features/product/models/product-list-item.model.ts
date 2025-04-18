@@ -1,7 +1,8 @@
 export interface ProductListItem {
     id: number;
-    image: File;
+    image: string;
     name: string;
     brand: string;
     quantity: number;
+    description: string;
 }

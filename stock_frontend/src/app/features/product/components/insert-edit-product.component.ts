@@ -53,7 +53,10 @@ import ProductListItemComponent from "./product-list-item.component";
                 </div>
                 <button class="btn btn-primary" type="submit">Guardar</button>
             </form>
-            <app-product-image-preview [imagePreview]="imagePreview"></app-product-image-preview>
+            <app-product-image-preview 
+            [imagePreview]="imagePreview"
+            (error)="onImageError()"
+            ></app-product-image-preview>
         </div>
         `,
         imports: [ReactiveFormsModule, ImagePreviewProduct],
@@ -66,6 +69,8 @@ export default class EditInsertProductComponent {
     selectedFile!: File;
     imagePreview: string | ArrayBuffer | null = null;
     loading = true;
+
+    imageLoadedSuccessfully = true;
 
     constructor(private route: ActivatedRoute, private fb: FormBuilder, private productService: ProductService){
         this.uploadForm = this.fb.group(
@@ -83,11 +88,7 @@ export default class EditInsertProductComponent {
         //Add 'implements OnInit' to the class.
         const id = this.route.snapshot.paramMap.get('productId');
         if(id){
-            this.loading = false;
-            this.productService.getProductById(id).subscribe({
-                next: (response) => console.log(response),
-                error: (error) => console.log('Request failed', error)
-            });
+            this.fillProductForm(id);
         }
     }
 
@@ -108,8 +109,27 @@ export default class EditInsertProductComponent {
         });
     }
 
-    fillProductForm(product: ProductListItemComponent){
-        
+    fillProductForm(id: string){
+        this.loading = false;
+        this.productService.getProductById(id).subscribe({
+            next: (response) => {
+                console.log(response)
+                const formData = {
+                    name: response.name,
+                    brand: response.brand,
+                    description: response.description
+                }
+                if(response.image) {
+                    this.imagePreview = response.image;
+                }
+                this.uploadForm.patchValue(formData);
+            },
+            error: (error) => console.log('Request failed', error)
+        });
+    }
+
+    onImageError(){
+        this.imageLoadedSuccessfully = false;
     }
 
     onFileSelected(e: Event){

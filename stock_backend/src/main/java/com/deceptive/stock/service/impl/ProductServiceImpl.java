@@ -59,10 +59,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProductById(Integer id) {
-
-        return productRepo.findById(id).orElseThrow(
+    public ProductResponse getProductById(Integer id) {
+        Product product = productRepo.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Product", "Id", id));
+        return prodResMapper.apply(product);
     }
 
     @Override

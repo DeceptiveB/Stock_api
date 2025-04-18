@@ -12,7 +12,7 @@ import java.util.List;
 public interface ProductService {
     PagedResponse<ProductResponse> getAllProducts(int page, int size);
 
-    Product getProductById(Integer id);
+    ProductResponse getProductById(Integer id);
 
     Product saveProduct(ProductRequest productRequest, MultipartFile image);
 

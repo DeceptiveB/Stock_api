@@ -19,6 +19,7 @@ import { CommonModule } from "@angular/common";
                         <th></th>
                         <th>Name</th>
                         <th>Brand</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

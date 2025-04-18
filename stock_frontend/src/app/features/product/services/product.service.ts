@@ -42,7 +42,7 @@ export class ProductService {
     getProductById(id: string){
         var apiUrl = this.apiUrl + "/api/product/"+id;
 
-        return this.http.get<ApiPageResponse<ProductListItem[]>>(apiUrl);
+        return this.http.get<ProductListItem>(apiUrl);
           
     }
     getAllProducts(page: number, size: number){

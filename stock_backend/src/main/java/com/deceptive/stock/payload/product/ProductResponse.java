@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Set;
 
 public record ProductResponse(
+        Integer id,
         String name,
         String brand,
         String description,
