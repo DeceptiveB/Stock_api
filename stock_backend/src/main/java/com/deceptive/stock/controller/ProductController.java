@@ -1,5 +1,6 @@
 package com.deceptive.stock.controller;
 
+import com.deceptive.stock.mapper.product.ProductResponseMapper;
 import com.deceptive.stock.model.Product;
 import com.deceptive.stock.payload.PagedResponse;
 import com.deceptive.stock.payload.product.ProductRequest;
@@ -23,6 +24,8 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ProductResponseMapper prodResMapper;
 
     @GetMapping
     public ResponseEntity<PagedResponse<ProductResponse>> getProducts(
@@ -88,5 +91,17 @@ public class ProductController {
                                              ){
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponse> updateProduct(
+            @PathVariable("id") Integer id,
+            @RequestParam("data") String productRequest,
+            @RequestParam(value = "image", required = false) MultipartFile image
+                                                        ) throws JsonProcessingException {
+        ProductRequest productReq = convertToProductRequest(productRequest);
+        Product product = productService.updateProduct(id, productReq, image);
+        ProductResponse productResponse = prodResMapper.apply(product);
+        return ResponseEntity.ok().body(productResponse);
     }
 }

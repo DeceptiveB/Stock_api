@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface ProductService {
+    Product updateProduct(Integer id, ProductRequest productRequest, MultipartFile image);
+
     PagedResponse<ProductResponse> getAllProducts(int page, int size);
 
     ProductResponse getProductById(Integer id);

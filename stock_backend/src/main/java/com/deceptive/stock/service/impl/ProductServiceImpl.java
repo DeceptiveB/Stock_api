@@ -3,11 +3,14 @@ package com.deceptive.stock.service.impl;
 import com.deceptive.stock.exception.ResourceNotFoundException;
 import com.deceptive.stock.mapper.product.ProductRequestMapper;
 import com.deceptive.stock.mapper.product.ProductResponseMapper;
+import com.deceptive.stock.model.Brand;
 import com.deceptive.stock.model.Product;
 import com.deceptive.stock.payload.PagedResponse;
 import com.deceptive.stock.payload.product.ProductRequest;
 import com.deceptive.stock.payload.product.ProductResponse;
+import com.deceptive.stock.repo.BrandRepo;
 import com.deceptive.stock.repo.ProductRepo;
+import com.deceptive.stock.service.BrandService;
 import com.deceptive.stock.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -39,6 +43,37 @@ public class ProductServiceImpl implements ProductService {
     private ProductRequestMapper prodReqMapper;
     @Autowired
     private ProductRepo productRepo;
+    @Autowired
+    private BrandRepo brandRepo;
+    @Override
+    public Product updateProduct(Integer id, ProductRequest productRequest, MultipartFile file) {
+        Product product = productRepo.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Product", "id", id));
+
+        Brand brand = brandRepo.findByName(productRequest.brand()).orElseThrow(
+                () -> new ResourceNotFoundException("Product", "id", id));
+        if (productRequest.name() != null){
+            product.setName(productRequest.name());
+        }
+        if (productRequest.brand() != null){
+            product.setBrand(brand);
+        }
+        if (productRequest.description() != null){
+            product.setDescription(productRequest.description());
+        }
+
+        if (file != null && !file.isEmpty()) {
+            try {
+                Files.createDirectories(Paths.get("uploads"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            String uniqueFileName = saveFile(file);
+            product.setImagePath(uniqueFileName);
+        }
+
+        return productRepo.save(product);
+    }
 
     @Override
     public PagedResponse<ProductResponse> getAllProducts(int page, int size) {
@@ -75,13 +110,7 @@ public class ProductServiceImpl implements ProductService {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            String uniqueFileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-            String filePath = imageDirectory + uniqueFileName;
-            try {
-                Files.copy(file.getInputStream(), Path.of(filePath), StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            String uniqueFileName = saveFile(file);
             product.setImagePath(uniqueFileName);
         }
 
@@ -126,5 +155,21 @@ public class ProductServiceImpl implements ProductService {
         productRepo.delete(product);
     }
 
+    private void updateIfNotNull(Consumer<String> setter, String value) {
+        if (value != null && !value.isBlank()) {
+            setter.accept(value);
+        }
+    }
+
+    public String saveFile(MultipartFile file) {
+        String uniqueFileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        String filePath = imageDirectory + uniqueFileName;
+        try {
+            Files.copy(file.getInputStream(), Path.of(filePath), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return uniqueFileName;
+    }
 
 }

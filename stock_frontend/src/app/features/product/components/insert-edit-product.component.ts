@@ -70,25 +70,35 @@ export default class EditInsertProductComponent {
     imagePreview: string | ArrayBuffer | null = null;
     loading = true;
 
+    isEditMode = false;
+
+    productId: null | string = null
     imageLoadedSuccessfully = true;
 
     constructor(private route: ActivatedRoute, private fb: FormBuilder, private productService: ProductService){
         this.uploadForm = this.fb.group(
             {
-                image: [null, Validators.required],
-                name: [null, Validators.required],
-                brand: [null, Validators.required],
-                description: [null, Validators.required],
+                image: [null],
+                name: [null, this.isEditMode ? [] : [Validators.required]],
+                brand: [null, this.isEditMode ? [] : [Validators.required]],
+                description: [null, this.isEditMode ? [] : [Validators.required]],
             }
         )
     }
 
     ngOnInit(): void {
-        //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-        //Add 'implements OnInit' to the class.
-        const id = this.route.snapshot.paramMap.get('productId');
-        if(id){
-            this.fillProductForm(id);
+        this.productId = this.route.snapshot.paramMap.get('productId');
+
+        console.log(this.productId)
+        
+        if(this.productId){
+            this.isEditMode = !!this.productId;
+            console.log(this.isEditMode)
+
+            this.fillProductForm(this.productId);
+            const imageControl = this.uploadForm.get('image');
+            imageControl?.clearValidators();
+            imageControl?.updateValueAndValidity();
         }
     }
 
@@ -103,10 +113,19 @@ export default class EditInsertProductComponent {
             categories: []
         }
 
-        this.productService.insertProduct(productRequest).subscribe({
-            next: (progress) => this.uploadProgress = progress,
-            error: (error) => console.log('Request failed', error)
-        });
+        console.log(this.isEditMode)
+        if(this.isEditMode){
+            this.productService.updateProduct(this.productId, productRequest).subscribe({
+                next: (progress) => this.uploadProgress = progress,
+                error: (error) => console.log('Request failed', error)
+            });
+        }
+        else {
+            this.productService.insertProduct(productRequest).subscribe({
+                next: (progress) => this.uploadProgress = progress,
+                error: (error) => console.log('Request failed', error)
+            });
+        }
     }
 
     fillProductForm(id: string){
@@ -125,7 +144,7 @@ export default class EditInsertProductComponent {
                 this.uploadForm.patchValue(formData);
             },
             error: (error) => console.log('Request failed', error)
-        });
+        }); 
     }
 
     onImageError(){

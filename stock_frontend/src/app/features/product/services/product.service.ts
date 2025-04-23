@@ -92,6 +92,33 @@ export class ProductService {
         );
     }
 
+    updateProduct(productId: null | string,req: ProductRequest): Observable<number> {
+        const formData = new FormData();
+
+        const data = {
+            name: req.name,
+            brand: req.brand,
+            description: req.description,
+            categories: []
+        }
+        formData.append("image", req.image);
+        formData.append("data", JSON.stringify(data))
+
+        var apiUrl = this.apiUrl + "/api/product/"+productId;
+
+        console.log(apiUrl)
+
+        console.log(formData);
+
+        return this.http.put<any>(apiUrl, formData, {
+            reportProgress: true,
+            observe: "events"
+        }).pipe(
+            map(event => this.getProgress(event)),
+            catchError(this.handleError)
+        );
+    }
+
     private getProgress(event: HttpEvent<any>): number {
         switch (event.type) {
             case HttpEventType.UploadProgress:
@@ -103,6 +130,8 @@ export class ProductService {
                 return 0;
         }
     }
+
+    
     private handleError(error: HttpErrorResponse): Observable<never> {
         console.error('Error uploading file:', error);
         return throwError(() => new Error('File upload failed. Please try again.'));
