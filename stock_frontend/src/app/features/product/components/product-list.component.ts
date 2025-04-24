@@ -9,10 +9,14 @@ import { CommonModule } from "@angular/common";
     styles: [],
     template: `
     <div class="container mt-5">
-        <div *ngIf="loading">
-            Cargando
+        <div>
+            <h1 class="">Products</h1>
         </div>
-        <div *ngIf="!loading">
+        <hr>
+        <div *ngIf="loading">
+            Cargando resultados
+        </div>
+        <div *ngIf="!loading && !isEmpty">
             <table class="table">
                 <thead>
                     <tr>
@@ -29,6 +33,9 @@ import { CommonModule } from "@angular/common";
                 </tbody>
             </table>
         </div>
+        <div *ngIf="isEmpty">
+            <h2>No hay resultados</h2>
+        </div>
     </div>
     
     `,
@@ -38,11 +45,10 @@ import { CommonModule } from "@angular/common";
 export default class ProductListComponent{
     products!: ProductListItem[];
     loading = true
+    isEmpty = false
     constructor(private productService: ProductService) {}
 
     ngOnInit(): void {
-        //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-        //Add 'implements OnInit' to the class.
         const page = 0;
         const size = 5;
         this.productService.getAllProducts(page, size).subscribe({
@@ -53,6 +59,7 @@ export default class ProductListComponent{
             },
             error: (err) => {
                 console.error('Error loading users', err);
+                this.isEmpty = true;
                 this.loading = false;
             }
         })

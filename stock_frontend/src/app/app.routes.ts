@@ -11,6 +11,10 @@ export const routes: Routes = [
         loadComponent: () => EntryListComponent,
     },
     {
+        path: "entry/edit",
+        loadComponent: () => EditInsertEntryComponent
+    },
+    {
         path: "product/edit",
         loadComponent: () => EditInsertProductComponent,
     },

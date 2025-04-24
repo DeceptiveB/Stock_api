@@ -9,15 +9,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angula
             <form [formGroup]="uploadForm" 
             (ngSubmit)="submitForm()">
                 <div>
-                    <label for="file">File</label>
-                    <input
-                    name="image" 
-                    type="file"
-                    id="file"
-                    (change)="onFileSelected($event)"
-                    accept=".jpg,.png">
-                </div>
-                <div>
                     <label for="file">Name</label>
                     <input
                     name="name" 

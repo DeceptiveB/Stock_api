@@ -6,25 +6,33 @@ import { ApiPageResponse } from "../../models/apipage.model";
 import { response } from "express";
 import { EntryItemComponent } from "./entry-item.component";
 import { HttpClient } from "@angular/common/http";
+import { CommonModule } from "@angular/common";
 
 @Component({
     selector: 'app-entry-list',
     template: `
-    <div>
+    <div class="container mt-5">
         <div>
             <h1>Entries</h1>
         </div>
-        @for (entry of entries; track entry.id) {
-            <app-entry-item [entry]="entry"></app-entry-item>
-        }
+        <hr>
+        <div *ngIf="!isEmpty">
+            @for (entry of entries; track entry.id) {
+                <app-entry-item [entry]="entry"></app-entry-item>
+            }
+        </div>
+        <div *ngIf="isEmpty">
+            <h2>No hay resultados</h2>
+        </div>
     </div>
     `,
-    imports: [EntryItemComponent],
+    imports: [EntryItemComponent, CommonModule],
 })
 
 export default class EntryListComponent implements OnInit {
     entries:Entry[] = [];
     totalRecords: number = 0;
+    isEmpty = false;
 
     constructor(private entryService: EntryService){}
 
@@ -37,7 +45,10 @@ export default class EntryListComponent implements OnInit {
                 this.entries = response.content
                 console.log(this.entries[0].product)
             },
-            error:  (error) => console.log(error)
+            error:  (error) => {
+                console.log(error)
+                this.isEmpty = true
+            }
             
         });
     }
