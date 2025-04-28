@@ -67,7 +67,7 @@ export class ProductService {
           
     }
 
-    insertProduct(req: ProductRequest): Observable<number> {
+    insertProduct(req: ProductRequest): Observable<HttpEvent<any>> {
         const formData = new FormData();
 
         const data = {
@@ -87,12 +87,12 @@ export class ProductService {
             reportProgress: true,
             observe: "events"
         }).pipe(
-            map(event => this.getProgress(event)),
-            catchError(this.handleError)
+            map(event => event),
+            //catchError(this.handleError)
         );
     }
 
-    updateProduct(productId: null | string,req: ProductRequest): Observable<number> {
+    updateProduct(productId: null | string,req: ProductRequest): Observable<HttpEvent<any>> {
         const formData = new FormData();
 
         const data = {
@@ -114,8 +114,8 @@ export class ProductService {
             reportProgress: true,
             observe: "events"
         }).pipe(
-            map(event => this.getProgress(event)),
-            catchError(this.handleError)
+            map(event => event),
+            //catchError(this.handleError)
         );
     }
 

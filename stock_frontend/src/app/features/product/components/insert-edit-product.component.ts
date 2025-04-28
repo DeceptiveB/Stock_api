@@ -5,6 +5,9 @@ import { ProductService } from "../services/product.service";
 import { ImagePreviewProduct } from "../../entry/components/image-preview.component";
 import { ActivatedRoute } from "@angular/router";
 import ProductListItemComponent from "./product-list-item.component";
+import NotificationComponent from "../../../shared/components/toast/components/notification.component";
+import { NotificationService } from "../../../shared/components/toast/services/notification.service";
+import { HttpEventType } from "@angular/common/http";
 
 @Component(
     {
@@ -54,8 +57,8 @@ import ProductListItemComponent from "./product-list-item.component";
                 <button class="btn btn-primary" type="submit">Guardar</button>
             </form>
             <app-product-image-preview 
-            [imagePreview]="imagePreview"
-            (error)="onImageError()"
+                [imagePreview]="imagePreview"
+                (error)="onImageError()"
             ></app-product-image-preview>
         </div>
         `,
@@ -70,12 +73,16 @@ export default class EditInsertProductComponent {
     imagePreview: string | ArrayBuffer | null = null;
     loading = true;
 
+
     isEditMode = false;
 
     productId: null | string = null
     imageLoadedSuccessfully = true;
 
-    constructor(private route: ActivatedRoute, private fb: FormBuilder, private productService: ProductService){
+    constructor(private route: ActivatedRoute, 
+                private fb: FormBuilder, 
+                private productService: ProductService,
+                private notificationService: NotificationService){
         this.uploadForm = this.fb.group(
             {
                 image: [null],
@@ -116,14 +123,56 @@ export default class EditInsertProductComponent {
         console.log(this.isEditMode)
         if(this.isEditMode){
             this.productService.updateProduct(this.productId, productRequest).subscribe({
-                next: (progress) => this.uploadProgress = progress,
-                error: (error) => console.log('Request failed', error)
+                next: (event) => {
+                    if (event.type === HttpEventType.UploadProgress && event.total) {
+                        this.uploadProgress = Math.round((event.loaded / event.total) * 100)
+                    }else if(event.type === HttpEventType.Response) {
+                        this.uploadProgress = 100;
+                        this.notificationService.show({
+                            message: 'Product updated succesfully',
+                            title: "New product",
+                            subtitle: "added",
+                            duration: 3000
+                        });
+                    }
+                },
+                error: (error) => {
+                    this.notificationService.show({
+                        message: error,
+                        title: "Error",
+                        subtitle: "Product",
+                        duration: 3000
+                    });
+                    console.log('Request failed', error)
+                    this.uploadProgress = 0;
+                }
             });
         }
         else {
             this.productService.insertProduct(productRequest).subscribe({
-                next: (progress) => this.uploadProgress = progress,
-                error: (error) => console.log('Request failed', error)
+                next: (event) => {
+                    if (event.type === HttpEventType.UploadProgress && event.total) {
+                        this.uploadProgress = Math.round((event.loaded / event.total) * 100)
+                    }else if(event.type === HttpEventType.Response) {
+                        this.uploadProgress = 100;
+                        this.notificationService.show({
+                            message: 'Product updated succesfully',
+                            title: "New product",
+                            subtitle: "added",
+                            duration: 3000
+                        });
+                    }
+                },
+                error: (error) => {
+                    this.notificationService.show({
+                        message: error,
+                        title: "Error",
+                        subtitle: "Product",
+                        duration: 3000
+                    });
+                    console.log('Request failed', error)
+                    this.uploadProgress = 0;
+                }
             });
         }
     }

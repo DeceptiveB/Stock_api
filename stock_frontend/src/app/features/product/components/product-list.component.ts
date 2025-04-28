@@ -3,6 +3,8 @@ import ProductListItemComponent from "./product-list-item.component";
 import { ProductListItem } from "../models/product-list-item.model";
 import { ProductService } from "../services/product.service";
 import { CommonModule } from "@angular/common";
+import { NotificationService } from "../../../shared/components/toast/services/notification.service";
+import NotificationComponent from "../../../shared/components/toast/components/notification.component";
 
 @Component({
     selector: 'app-product-list',
@@ -46,7 +48,7 @@ export default class ProductListComponent{
     products!: ProductListItem[];
     loading = true
     isEmpty = false
-    constructor(private productService: ProductService) {}
+    constructor(private productService: ProductService, private notificationService: NotificationService) {}
 
     ngOnInit(): void {
         const page = 0;
