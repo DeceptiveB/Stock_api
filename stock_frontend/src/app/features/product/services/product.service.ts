@@ -88,7 +88,7 @@ export class ProductService {
             observe: "events"
         }).pipe(
             map(event => event),
-            //catchError(this.handleError)
+            catchError(this.handleError)
         );
     }
 

@@ -165,7 +165,7 @@ export default class EditInsertProductComponent {
                 },
                 error: (error) => {
                     this.notificationService.show({
-                        message: error,
+                        message: "Request failed!",
                         title: "Error",
                         subtitle: "Product",
                         duration: 3000
@@ -181,7 +181,6 @@ export default class EditInsertProductComponent {
         this.loading = false;
         this.productService.getProductById(id).subscribe({
             next: (response) => {
-                console.log(response)
                 const formData = {
                     name: response.name,
                     brand: response.brand,
