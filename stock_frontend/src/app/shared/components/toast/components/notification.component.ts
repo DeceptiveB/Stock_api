@@ -18,14 +18,6 @@ import { NotificationData } from "../models/notification.model";
       z-index: 9999;
     }
 
-    .toast-show {
-      transform: translateY(0);
-    }
-    
-    .toast-hide {
-      transform: translateY(20px);
-    }
-
     @keyframes fadeInOut {
       0% {
         opacity: 0;
@@ -47,9 +39,6 @@ import { NotificationData } from "../models/notification.model";
     `,
     template: `
     <div *ngIf="notification" class="toast-notification position-fixed bottom-0 end-0 p-3"
-    [ngClass]="{
-        'toast-show': show,
-        'toast-hide': !show}"
         [ngStyle]="{ animationDuration: (duration + 500) + 'ms' }"
         >
         <div id="liveToast"

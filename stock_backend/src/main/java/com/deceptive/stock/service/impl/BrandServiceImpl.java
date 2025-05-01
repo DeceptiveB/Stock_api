@@ -23,4 +23,10 @@ public class BrandServiceImpl implements BrandService {
     public List<Brand> getAllBrands() {
         return brandRepo.findAll();
     }
+
+    @Override
+    public List<Brand> getBrandsByNameLike(String name) {
+
+        return brandRepo.findByNameContainingIgnoreCase(name);
+    }
 }

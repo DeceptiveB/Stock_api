@@ -25,7 +25,18 @@ public class BrandController {
     }
 
     @GetMapping
-    private ResponseEntity<List<Brand>> getBrands(){
-        return ResponseEntity.ok().body(brandService.getAllBrands());
+    private ResponseEntity<List<Brand>> getBrandsByName(
+            @RequestParam(required = false) String name
+                                                       ){
+        List<Brand> brands;
+        if (name != null && !name.isBlank()){
+            brands = brandService.getBrandsByNameLike(name);
+        }
+        else {
+            brands = brandService.getAllBrands();
+        }
+        return ResponseEntity.ok().body(brands);
     }
+
+
 }

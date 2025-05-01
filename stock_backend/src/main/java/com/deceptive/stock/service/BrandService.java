@@ -9,4 +9,6 @@ public interface BrandService {
     Brand saveBrand(String name);
 
     List<Brand> getAllBrands();
+
+    List<Brand> getBrandsByNameLike(String name);
 }
