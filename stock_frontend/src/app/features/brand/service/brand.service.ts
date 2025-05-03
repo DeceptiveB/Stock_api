@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { BrandListItem } from "../models/brand-list-item.model";
 
 @Injectable({ providedIn: 'root' })
 export class BrandService {
@@ -7,10 +8,9 @@ export class BrandService {
 
     constructor(private readonly http: HttpClient) { }
 
-    getProductById(id: string) {
-        var apiUrl = this.apiUrl + "/api/product/" + id;
+    getBrandsByName(name: string) {
+        var apiUrl = this.apiUrl + `/api/brand?name=${name}`;
 
         return this.http.get<BrandListItem[]>(apiUrl);
-
     }
 }

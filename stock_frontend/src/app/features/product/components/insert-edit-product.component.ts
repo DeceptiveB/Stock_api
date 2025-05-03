@@ -8,6 +8,7 @@ import ProductListItemComponent from "./product-list-item.component";
 import NotificationComponent from "../../../shared/components/toast/components/notification.component";
 import { NotificationService } from "../../../shared/components/toast/services/notification.service";
 import { HttpEventType } from "@angular/common/http";
+import BrandSelectComponent from "../../brand/component/brandSelect/brand-select.component";
 
 @Component(
     {
@@ -38,12 +39,13 @@ import { HttpEventType } from "@angular/common/http";
                 </div>
                 <div class="mb-3 col-lg-6 col-md-6 col-12">
                     <label class="form-label" for="file">Brand</label>
-                    <input
+                    <!-- <input
                     class="form-control"
                     name="brand" 
                     type="text"
                     formControlName="brand"
-                    id="brand">
+                    id="brand"> -->
+                    <app-brand-select name="brand"></app-brand-select>
                 </div>
                 <div class="mb-3 col-lg-6 col-md-6 col-12">
                     <label class="form-label" for="file">Description</label>
@@ -62,7 +64,7 @@ import { HttpEventType } from "@angular/common/http";
             ></app-product-image-preview>
         </div>
         `,
-        imports: [ReactiveFormsModule, ImagePreviewProduct],
+        imports: [ReactiveFormsModule, ImagePreviewProduct, BrandSelectComponent],
     }
 )
 
