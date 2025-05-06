@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ProductRequest } from "../models/product-insert-request.model";
 import { ProductService } from "../services/product.service";
 import { ImagePreviewProduct } from "../../entry/components/image-preview.component";
@@ -9,6 +9,7 @@ import NotificationComponent from "../../../shared/components/toast/components/n
 import { NotificationService } from "../../../shared/components/toast/services/notification.service";
 import { HttpEventType } from "@angular/common/http";
 import BrandSelectComponent from "../../brand/component/brandSelect/brand-select.component";
+import { BrandListItem } from "../../brand/models/brand-list-item.model";
 
 @Component(
     {
@@ -45,7 +46,10 @@ import BrandSelectComponent from "../../brand/component/brandSelect/brand-select
                     type="text"
                     formControlName="brand"
                     id="brand"> -->
-                    <app-brand-select name="brand"></app-brand-select>
+                    <app-brand-select 
+                    [brandItem]="brandItem"
+                    [control]="brandControl"
+                    ></app-brand-select>
                 </div>
                 <div class="mb-3 col-lg-6 col-md-6 col-12">
                     <label class="form-label" for="file">Description</label>
@@ -75,6 +79,7 @@ export default class EditInsertProductComponent {
     imagePreview: string | ArrayBuffer | null = null;
     loading = true;
 
+    brandItem!: BrandListItem;
 
     isEditMode = false;
 
@@ -88,11 +93,15 @@ export default class EditInsertProductComponent {
         this.uploadForm = this.fb.group(
             {
                 image: [null],
-                name: [null, this.isEditMode ? [] : [Validators.required]],
-                brand: [null, this.isEditMode ? [] : [Validators.required]],
+                name: [null, [Validators.required]],
+                brand: [[Validators.required]],
                 description: [null, this.isEditMode ? [] : [Validators.required]],
             }
         )
+    }
+
+    get brandControl(): FormControl {
+        return this.uploadForm.get('brand') as FormControl;
     }
 
     ngOnInit(): void {
@@ -102,7 +111,6 @@ export default class EditInsertProductComponent {
         
         if(this.productId){
             this.isEditMode = !!this.productId;
-            console.log(this.isEditMode)
 
             this.fillProductForm(this.productId);
             const imageControl = this.uploadForm.get('image');
@@ -114,6 +122,7 @@ export default class EditInsertProductComponent {
     submitForm(){
         if (this.uploadForm.invalid) return;
 
+        console.log(this.uploadForm.get("brand")?.value)
         const productRequest: ProductRequest = {
             image: this.selectedFile,
             name: this.uploadForm.get("name")?.value,
@@ -190,6 +199,10 @@ export default class EditInsertProductComponent {
                 }
                 if(response.image) {
                     this.imagePreview = response.image;
+                }
+                this.brandItem = {
+                    name: response.brand,
+                    id: 0
                 }
                 this.uploadForm.patchValue(formData);
             },

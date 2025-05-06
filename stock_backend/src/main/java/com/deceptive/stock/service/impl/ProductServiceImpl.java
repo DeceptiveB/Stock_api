@@ -49,13 +49,12 @@ public class ProductServiceImpl implements ProductService {
     public Product updateProduct(Integer id, ProductRequest productRequest, MultipartFile file) {
         Product product = productRepo.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Product", "id", id));
-
-        Brand brand = brandRepo.findByName(productRequest.brand()).orElseThrow(
-                () -> new ResourceNotFoundException("Product", "id", id));
         if (productRequest.name() != null){
             product.setName(productRequest.name());
         }
         if (productRequest.brand() != null){
+            Brand brand = brandRepo.findByName(productRequest.brand()).orElseThrow(
+                    () -> new ResourceNotFoundException("Brand", "name", productRequest.brand()));
             product.setBrand(brand);
         }
         if (productRequest.description() != null){
