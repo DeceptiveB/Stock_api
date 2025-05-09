@@ -24,7 +24,7 @@ export default class BrandSelectComponent {
         if (changes['brandItem'] && this.brandItem) {
             console.log(this.brandItem)
             this.brandList = [this.brandItem]
-            this.control.setValue(this.brandItem);
+            this.control.setValue(this.brandItem.name);
         }
     }
 

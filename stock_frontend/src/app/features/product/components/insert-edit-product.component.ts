@@ -4,16 +4,15 @@ import { ProductRequest } from "../models/product-insert-request.model";
 import { ProductService } from "../services/product.service";
 import { ImagePreviewProduct } from "../../entry/components/image-preview.component";
 import { ActivatedRoute } from "@angular/router";
-import ProductListItemComponent from "./product-list-item.component";
-import NotificationComponent from "../../../shared/components/toast/components/notification.component";
 import { NotificationService } from "../../../shared/components/toast/services/notification.service";
 import { HttpEventType } from "@angular/common/http";
 import BrandSelectComponent from "../../brand/component/brandSelect/brand-select.component";
 import { BrandListItem } from "../../brand/models/brand-list-item.model";
+import BrandInsertComponent from "../../brand/component/InsertBrandFormModal/brand-insert.component";
 
 @Component(
     {
-        selector: "app-edit-entry",
+        selector: "app-edit-product",
         template: `
         <div class="container py-3">
             <form (ngSubmit)="submitForm()"
@@ -50,12 +49,23 @@ import { BrandListItem } from "../../brand/models/brand-list-item.model";
                     [brandItem]="brandItem"
                     [control]="brandControl"
                     ></app-brand-select>
+                    <button 
+                        type="button" 
+                        (click)="modal.show()" 
+                        class="btn btn-success mt-2">Add Brand</button>
                 </div>
                 <div class="mb-3 col-lg-6 col-md-6 col-12">
+                    <label class="form-label" for="file">Categories</label>
+                    <!-- <app-brand-select 
+                    [brandItem]="brandItem"
+                    [control]="brandControl"
+                    ></app-brand-select> -->
+                </div>
+                <div class="mb-3 col-lg-12 col-md-12 col-12">
                     <label class="form-label" for="file">Description</label>
                     <input
                     class="form-control"
-                    name="description" 
+                    name="description"
                     type="textarea"
                     formControlName="description"
                     id="description">
@@ -66,15 +76,21 @@ import { BrandListItem } from "../../brand/models/brand-list-item.model";
                 [imagePreview]="imagePreview"
                 (error)="onImageError()"
             ></app-product-image-preview>
+            <app-brand-insert
+              #modal>
+            </app-brand-insert>
         </div>
         `,
-        imports: [ReactiveFormsModule, ImagePreviewProduct, BrandSelectComponent],
+        imports: [ReactiveFormsModule, 
+            ImagePreviewProduct, 
+            BrandSelectComponent, 
+            BrandInsertComponent],
     }
 )
 
 export default class EditInsertProductComponent {
     uploadForm: FormGroup;
-    uploadProgress:number = 0;
+    uploadProgress: number = 0;
     selectedFile!: File;
     imagePreview: string | ArrayBuffer | null = null;
     loading = true;
@@ -86,10 +102,10 @@ export default class EditInsertProductComponent {
     productId: null | string = null
     imageLoadedSuccessfully = true;
 
-    constructor(private route: ActivatedRoute, 
-                private fb: FormBuilder, 
-                private productService: ProductService,
-                private notificationService: NotificationService){
+    constructor(private route: ActivatedRoute,
+        private fb: FormBuilder,
+        private productService: ProductService,
+        private notificationService: NotificationService) {
         this.uploadForm = this.fb.group(
             {
                 image: [null],
@@ -108,8 +124,8 @@ export default class EditInsertProductComponent {
         this.productId = this.route.snapshot.paramMap.get('productId');
 
         console.log(this.productId)
-        
-        if(this.productId){
+
+        if (this.productId) {
             this.isEditMode = !!this.productId;
 
             this.fillProductForm(this.productId);
@@ -119,7 +135,7 @@ export default class EditInsertProductComponent {
         }
     }
 
-    submitForm(){
+    submitForm() {
         if (this.uploadForm.invalid) return;
 
         console.log(this.uploadForm.get("brand")?.value)
@@ -132,12 +148,12 @@ export default class EditInsertProductComponent {
         }
 
         console.log(this.isEditMode)
-        if(this.isEditMode){
+        if (this.isEditMode) {
             this.productService.updateProduct(this.productId, productRequest).subscribe({
                 next: (event) => {
                     if (event.type === HttpEventType.UploadProgress && event.total) {
                         this.uploadProgress = Math.round((event.loaded / event.total) * 100)
-                    }else if(event.type === HttpEventType.Response) {
+                    } else if (event.type === HttpEventType.Response) {
                         this.uploadProgress = 100;
                         this.notificationService.show({
                             message: 'Product updated succesfully',
@@ -164,7 +180,7 @@ export default class EditInsertProductComponent {
                 next: (event) => {
                     if (event.type === HttpEventType.UploadProgress && event.total) {
                         this.uploadProgress = Math.round((event.loaded / event.total) * 100)
-                    }else if(event.type === HttpEventType.Response) {
+                    } else if (event.type === HttpEventType.Response) {
                         this.uploadProgress = 100;
                         this.notificationService.show({
                             message: 'Product updated succesfully',
@@ -188,7 +204,7 @@ export default class EditInsertProductComponent {
         }
     }
 
-    fillProductForm(id: string){
+    fillProductForm(id: string) {
         this.loading = false;
         this.productService.getProductById(id).subscribe({
             next: (response) => {
@@ -197,7 +213,7 @@ export default class EditInsertProductComponent {
                     brand: response.brand,
                     description: response.description
                 }
-                if(response.image) {
+                if (response.image) {
                     this.imagePreview = response.image;
                 }
                 this.brandItem = {
@@ -207,22 +223,22 @@ export default class EditInsertProductComponent {
                 this.uploadForm.patchValue(formData);
             },
             error: (error) => console.log('Request failed', error)
-        }); 
+        });
     }
 
-    onImageError(){
+    onImageError() {
         this.imageLoadedSuccessfully = false;
     }
 
-    onFileSelected(e: Event){
+    onFileSelected(e: Event) {
         const fileInput = e.target as HTMLInputElement;
-        if(fileInput?.files?.length){
+        if (fileInput?.files?.length) {
             const file = fileInput.files[0];
             this.selectedFile = file;
-            this.uploadForm.patchValue({file})
+            this.uploadForm.patchValue({ file })
             const reader = new FileReader();
             reader.onload = () => {
-              this.imagePreview = reader.result; // Convert image to Base64 URL
+                this.imagePreview = reader.result; // Convert image to Base64 URL
             };
             reader.readAsDataURL(file);
         }

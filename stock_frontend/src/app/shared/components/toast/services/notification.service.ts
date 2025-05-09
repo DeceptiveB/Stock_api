@@ -8,7 +8,6 @@ export class NotificationService {
   toast$ = this.toastSubject.asObservable();
 
   show(data: NotificationData) {
-    console.log(data)
     this.toastSubject.next(data);
   }
 }

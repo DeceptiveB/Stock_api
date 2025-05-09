@@ -1,6 +1,7 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BrandListItem } from "../models/brand-list-item.model";
+import { catchError, map, Observable, throwError } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class BrandService {
@@ -13,4 +14,27 @@ export class BrandService {
 
         return this.http.get<BrandListItem[]>(apiUrl);
     }
+
+    saveBrand(name: string) {
+        const data = {
+            name: name
+        }
+        var apiUrl = this.apiUrl + "/api/brand";
+
+        console.log(data)
+        console.log(apiUrl)
+
+
+        return this.http.post<any>(apiUrl, data, {
+            observe: "events"
+        }).pipe(
+            map(event => event),
+            catchError(this.handleError)
+        );
+    }
+
+    private handleError(error: HttpErrorResponse): Observable<never> {
+            console.error('Error uploading file:', error);
+            return throwError(() => new Error('File upload failed. Please try again.'));
+        }
 }
