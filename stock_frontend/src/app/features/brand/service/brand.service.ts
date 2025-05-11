@@ -21,16 +21,14 @@ export class BrandService {
         }
         var apiUrl = this.apiUrl + "/api/brand";
 
-        console.log(data)
-        console.log(apiUrl)
+        /* console.log(data)
+        console.log(apiUrl) */
 
 
-        return this.http.post<any>(apiUrl, data, {
-            observe: "events"
-        }).pipe(
-            map(event => event),
-            catchError(this.handleError)
-        );
+        return this.http.post<any>(apiUrl, data, 
+            {
+                headers: { "Content-Type": "application/json"}
+            });
     }
 
     private handleError(error: HttpErrorResponse): Observable<never> {
