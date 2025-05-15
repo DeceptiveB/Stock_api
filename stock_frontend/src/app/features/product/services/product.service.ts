@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders, H
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { environment } from '../../../../environment/environment';
-import { ApiPageResponse } from '../../models/apipage.model';
+import { ApiPageResponse } from '../../../models/apipage.model';
 import { ProductRequest } from '../models/product-insert-request.model';
 import { Product } from '../../entry/models/product.model';
 import { ProductListItem } from '../models/product-list-item.model';
@@ -81,8 +81,6 @@ export class ProductService {
 
         var apiUrl = this.apiUrl + "/api/product";
 
-        console.log(formData);
-
         return this.http.post<any>(apiUrl, formData, {
             reportProgress: true,
             observe: "events"
@@ -105,10 +103,6 @@ export class ProductService {
         formData.append("data", JSON.stringify(data))
 
         var apiUrl = this.apiUrl + "/api/product/"+productId;
-
-        console.log(apiUrl)
-
-        console.log(formData);
 
         return this.http.put<any>(apiUrl, formData, {
             reportProgress: true,

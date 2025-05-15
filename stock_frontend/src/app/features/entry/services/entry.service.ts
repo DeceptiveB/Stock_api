@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Entry } from '../models/entry.model';
 import { environment } from '../../../../environment/environment';
-import { ApiPageResponse } from '../../models/apipage.model';
+import { ApiPageResponse } from '../../../models/apipage.model';
 
 @Injectable({
   providedIn: 'root',

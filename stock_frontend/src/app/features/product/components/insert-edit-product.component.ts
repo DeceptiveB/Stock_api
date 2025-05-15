@@ -9,6 +9,7 @@ import { HttpEventType } from "@angular/common/http";
 import BrandSelectComponent from "../../brand/component/brandSelect/brand-select.component";
 import { BrandListItem } from "../../brand/models/brand-list-item.model";
 import BrandInsertComponent from "../../brand/component/InsertBrandFormModal/brand-insert.component";
+import CategoryMultiSelectComponent from "../../category/components/category-multi-select.component";
 
 @Component(
     {
@@ -39,12 +40,6 @@ import BrandInsertComponent from "../../brand/component/InsertBrandFormModal/bra
                 </div>
                 <div class="mb-3 col-lg-6 col-md-6 col-12">
                     <label class="form-label" for="file">Brand</label>
-                    <!-- <input
-                    class="form-control"
-                    name="brand" 
-                    type="text"
-                    formControlName="brand"
-                    id="brand"> -->
                     <app-brand-select 
                     [brandItem]="brandItem"
                     [control]="brandControl"
@@ -56,10 +51,9 @@ import BrandInsertComponent from "../../brand/component/InsertBrandFormModal/bra
                 </div>
                 <div class="mb-3 col-lg-6 col-md-6 col-12">
                     <label class="form-label" for="file">Categories</label>
-                    <!-- <app-brand-select 
-                    [brandItem]="brandItem"
-                    [control]="brandControl"
-                    ></app-brand-select> -->
+                    <app-category-select
+                        [control]="categoriesControl"
+                    ></app-category-select>
                 </div>
                 <div class="mb-3 col-lg-12 col-md-12 col-12">
                     <label class="form-label" for="file">Description</label>
@@ -84,7 +78,9 @@ import BrandInsertComponent from "../../brand/component/InsertBrandFormModal/bra
         imports: [ReactiveFormsModule, 
             ImagePreviewProduct, 
             BrandSelectComponent, 
-            BrandInsertComponent],
+            BrandInsertComponent,
+            CategoryMultiSelectComponent
+        ],
     }
 )
 
@@ -111,7 +107,8 @@ export default class EditInsertProductComponent {
                 image: [null],
                 name: [null, [Validators.required]],
                 brand: [[Validators.required]],
-                description: [null, this.isEditMode ? [] : [Validators.required]],
+                description: [null, [Validators.required]],
+                categories: [[null, [Validators.required]]]
             }
         )
     }
@@ -119,11 +116,12 @@ export default class EditInsertProductComponent {
     get brandControl(): FormControl {
         return this.uploadForm.get('brand') as FormControl;
     }
+    get categoriesControl(): FormControl {
+        return this.uploadForm.get('categories') as FormControl;
+    }
 
     ngOnInit(): void {
         this.productId = this.route.snapshot.paramMap.get('productId');
-
-        console.log(this.productId)
 
         if (this.productId) {
             this.isEditMode = !!this.productId;
@@ -138,7 +136,6 @@ export default class EditInsertProductComponent {
     submitForm() {
         if (this.uploadForm.invalid) return;
 
-        console.log(this.uploadForm.get("brand")?.value)
         const productRequest: ProductRequest = {
             image: this.selectedFile,
             name: this.uploadForm.get("name")?.value,
@@ -147,7 +144,6 @@ export default class EditInsertProductComponent {
             categories: []
         }
 
-        console.log(this.isEditMode)
         if (this.isEditMode) {
             this.productService.updateProduct(this.productId, productRequest).subscribe({
                 next: (event) => {

@@ -17,9 +17,6 @@ export default class BrandSelectComponent {
     brandList!: BrandListItem[];
     constructor(private brandService: BrandService){}
 
-    ngOnInit(): void {
-    }
-
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['brandItem'] && this.brandItem) {
             console.log(this.brandItem)

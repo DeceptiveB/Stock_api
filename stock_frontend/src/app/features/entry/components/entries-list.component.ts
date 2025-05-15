@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { Entry } from "../models/entry.model";
 import { EntryService } from "../services/entry.service";
-import { ApiPageResponse } from "../../models/apipage.model";
+import { ApiPageResponse } from "../../../models/apipage.model";
 import { response } from "express";
 import { EntryItemComponent } from "./entry-item.component";
 import { HttpClient } from "@angular/common/http";

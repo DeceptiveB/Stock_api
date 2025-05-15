@@ -21,18 +21,14 @@ export class BrandService {
         }
         var apiUrl = this.apiUrl + "/api/brand";
 
-        /* console.log(data)
-        console.log(apiUrl) */
-
-
-        return this.http.post<any>(apiUrl, data, 
+        return this.http.post<any>(apiUrl, data,
             {
-                headers: { "Content-Type": "application/json"}
+                headers: { "Content-Type": "application/json" }
             });
     }
 
     private handleError(error: HttpErrorResponse): Observable<never> {
-            console.error('Error uploading file:', error);
-            return throwError(() => new Error('File upload failed. Please try again.'));
-        }
+        console.error('Error uploading file:', error);
+        return throwError(() => new Error('File upload failed. Please try again.'));
+    }
 }
