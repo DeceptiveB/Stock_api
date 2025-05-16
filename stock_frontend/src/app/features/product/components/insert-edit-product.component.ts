@@ -10,6 +10,7 @@ import BrandSelectComponent from "../../brand/component/brandSelect/brand-select
 import { BrandListItem } from "../../brand/models/brand-list-item.model";
 import BrandInsertComponent from "../../brand/component/InsertBrandFormModal/brand-insert.component";
 import CategoryMultiSelectComponent from "../../category/components/category-multi-select.component";
+import { CategoryListItem } from "../../category/models/category-list-item.model";
 
 @Component(
     {
@@ -53,6 +54,7 @@ import CategoryMultiSelectComponent from "../../category/components/category-mul
                     <label class="form-label" for="file">Categories</label>
                     <app-category-select
                         [control]="categoriesControl"
+                        [productCategories]="categories"
                     ></app-category-select>
                 </div>
                 <div class="mb-3 col-lg-12 col-md-12 col-12">
@@ -92,6 +94,7 @@ export default class EditInsertProductComponent {
     loading = true;
 
     brandItem!: BrandListItem;
+    categories!: CategoryListItem[];
 
     isEditMode = false;
 
@@ -204,6 +207,8 @@ export default class EditInsertProductComponent {
         this.loading = false;
         this.productService.getProductById(id).subscribe({
             next: (response) => {
+                console.log(response);
+                
                 const formData = {
                     name: response.name,
                     brand: response.brand,
@@ -216,6 +221,7 @@ export default class EditInsertProductComponent {
                     name: response.brand,
                     id: 0
                 }
+                this.categories = response.categories
                 this.uploadForm.patchValue(formData);
             },
             error: (error) => console.log('Request failed', error)

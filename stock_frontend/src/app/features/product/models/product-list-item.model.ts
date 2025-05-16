@@ -1,3 +1,5 @@
+import { CategoryListItem } from "../../category/models/category-list-item.model";
+
 export interface ProductListItem {
     id: number;
     image: string;
@@ -5,4 +7,5 @@ export interface ProductListItem {
     brand: string;
     quantity: number;
     description: string;
+    categories: CategoryListItem[]
 }
