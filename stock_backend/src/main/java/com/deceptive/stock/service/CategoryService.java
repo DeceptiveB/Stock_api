@@ -10,4 +10,6 @@ public interface CategoryService {
     Category saveCategory(String name);
 
     List<Category> getAllCategories();
+
+    List<Category> getCategoriesByNameLike(String name);
 }

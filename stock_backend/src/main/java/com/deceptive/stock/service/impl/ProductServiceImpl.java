@@ -4,13 +4,14 @@ import com.deceptive.stock.exception.ResourceNotFoundException;
 import com.deceptive.stock.mapper.product.ProductRequestMapper;
 import com.deceptive.stock.mapper.product.ProductResponseMapper;
 import com.deceptive.stock.model.Brand;
+import com.deceptive.stock.model.Category;
 import com.deceptive.stock.model.Product;
 import com.deceptive.stock.payload.PagedResponse;
 import com.deceptive.stock.payload.product.ProductRequest;
 import com.deceptive.stock.payload.product.ProductResponse;
 import com.deceptive.stock.repo.BrandRepo;
+import com.deceptive.stock.repo.CategoryRepo;
 import com.deceptive.stock.repo.ProductRepo;
-import com.deceptive.stock.service.BrandService;
 import com.deceptive.stock.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +28,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -45,6 +49,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepo productRepo;
     @Autowired
     private BrandRepo brandRepo;
+    @Autowired
+    private CategoryRepo catRepo;
     @Override
     public Product updateProduct(Integer id, ProductRequest productRequest, MultipartFile file) {
         Product product = productRepo.findById(id).orElseThrow(
@@ -59,6 +65,17 @@ public class ProductServiceImpl implements ProductService {
         }
         if (productRequest.description() != null){
             product.setDescription(productRequest.description());
+        }
+
+        if(!productRequest.categories().isEmpty()){
+            Set<Category> categories = productRequest.categories()
+                    .stream()
+                    .map((cat) -> catRepo.findByName(cat).
+                            orElseThrow(
+                                    () -> new ResourceNotFoundException("Category", "name", cat)
+                                       ))
+                    .collect(Collectors.toSet());
+            product.setCategories(categories);
         }
 
         if (file != null && !file.isEmpty()) {

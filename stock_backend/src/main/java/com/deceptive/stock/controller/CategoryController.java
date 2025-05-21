@@ -24,7 +24,15 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories(){
-        return ResponseEntity.ok().body(catService.getAllCategories());
+    public ResponseEntity<List<Category>> getCategoriesByName(
+            @RequestParam(required = false) String name
+                                                             ){
+        List<Category> categories;
+        if (name != null && !name.isBlank()){
+            categories = catService.getCategoriesByNameLike(name);
+        }else {
+            categories = catService.getAllCategories();
+        }
+        return ResponseEntity.ok().body(categories);
     }
 }

@@ -22,4 +22,9 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> getAllCategories() {
         return categoryRepo.findAll();
     }
+
+    @Override
+    public List<Category> getCategoriesByNameLike(String name) {
+        return categoryRepo.findByNameContainingIgnoreCase(name);
+    }
 }

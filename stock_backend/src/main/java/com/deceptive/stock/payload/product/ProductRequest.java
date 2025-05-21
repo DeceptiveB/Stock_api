@@ -8,7 +8,7 @@ import java.util.Set;
 public record ProductRequest(
         String name,
         String brand,
-        Set<Integer> categories,
+        Set<String> categories,
         String description
 ) {
 

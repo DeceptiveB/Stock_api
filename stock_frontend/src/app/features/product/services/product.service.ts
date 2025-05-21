@@ -97,12 +97,14 @@ export class ProductService {
             name: req.name,
             brand: req.brand,
             description: req.description,
-            categories: []
+            categories: req.categories
         }
         formData.append("image", req.image);
         formData.append("data", JSON.stringify(data))
 
         var apiUrl = this.apiUrl + "/api/product/"+productId;
+
+        console.log(data)
 
         return this.http.put<any>(apiUrl, formData, {
             reportProgress: true,

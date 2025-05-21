@@ -111,7 +111,7 @@ export default class EditInsertProductComponent {
                 name: [null, [Validators.required]],
                 brand: [[Validators.required]],
                 description: [null, [Validators.required]],
-                categories: [[null, [Validators.required]]]
+                categories: [[], [Validators.required]]
             }
         )
     }
@@ -144,7 +144,7 @@ export default class EditInsertProductComponent {
             name: this.uploadForm.get("name")?.value,
             description: this.uploadForm.get("description")?.value,
             brand: this.uploadForm.get("brand")?.value,
-            categories: []
+            categories: this.uploadForm.get("categories")?.value,
         }
 
         if (this.isEditMode) {

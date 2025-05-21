@@ -25,10 +25,10 @@ public class ProductRequestMapper implements Function<ProductRequest, Product> {
     @Override
     public Product apply(ProductRequest productRequest) {
         Set<Category> categories = new HashSet<>();
-        Set<Integer> productCats = productRequest.categories() != null ? productRequest.categories() : Set.of();
-        for(Integer cat: productCats){
-            categories.add(this.categoryRepo.findById(cat)
-                                   .orElseThrow(() -> new ResourceNotFoundException("Category", "Id", cat)));
+        Set<String> productCats = productRequest.categories() != null ? productRequest.categories() : Set.of();
+        for(String cat: productCats){
+            categories.add(this.categoryRepo.findByName(cat)
+                                   .orElseThrow(() -> new ResourceNotFoundException("Category", "Name", cat)));
         }
         Brand brand = brandRepo.findByName(productRequest.brand())
                 .orElseThrow(() -> new ResourceNotFoundException("Brand", "Name", productRequest.brand()));
