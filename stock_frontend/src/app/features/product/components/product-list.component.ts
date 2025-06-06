@@ -50,6 +50,11 @@ import { RouterLink } from "@angular/router";
             >
             <!-- Name Column -->
                 <ngx-datatable-column [flexGrow]="1" name="Id" prop="id"></ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="1" name="Image" prop="image">
+                    <ng-template let-value="value" ngx-datatable-cell-template #name>
+                        <img src="{{value}}" class="w-100" alt="">
+                    </ng-template>
+                </ngx-datatable-column>
                 <ngx-datatable-column [flexGrow]="2" name="Name" prop="name"></ngx-datatable-column>
 
                 <!-- Price Column -->
@@ -67,7 +72,7 @@ import { RouterLink } from "@angular/router";
     </div>
     
     `,
-    imports: [ProductListItemComponent, CommonModule, NgxDatatableModule, RouterLink]
+    imports: [CommonModule, NgxDatatableModule, RouterLink]
 })
 
 export default class ProductListComponent {
