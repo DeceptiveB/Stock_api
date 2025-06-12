@@ -4,8 +4,9 @@ import { ProductListItem } from "../models/product-list-item.model";
 import { ProductService } from "../services/product.service";
 import { CommonModule } from "@angular/common";
 import { NotificationService } from "../../../shared/components/toast/services/notification.service";
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxDatatableModule, PageEvent } from '@swimlane/ngx-datatable';
 import { RouterLink } from "@angular/router";
+import { FormControl, FormsModule } from "@angular/forms";
 
 @Component({
     selector: 'app-product-list',
@@ -20,21 +21,13 @@ import { RouterLink } from "@angular/router";
             Cargando resultados
         </div>
         <div *ngIf="!loading && !isEmpty">
-            <!---<table datatable [dtOptions]="dtOptions" class="table">--->
-            <!---    <thead>--->
-            <!---        <tr>--->
-            <!---            <th></th>--->
-            <!---            <th>Name</th>--->
-            <!---            <th>Brand</th>--->
-            <!---            <th></th>--->
-            <!---        </tr>--->
-            <!---    </thead>--->
-            <!---    <tbody>--->
-            <!---    @for (product of products; track $index) {--->
-            <!---            <tr app-product-list-item [product]="product"></tr>--->
-            <!---    }--->
-            <!---    </tbody>--->
-            <!---</table>--->
+            <div class="col-lg-2 mb-3">
+                <select [(ngModel)]="pageSize" (change)="pageSelectChange()" class="form-select" name="" id="">
+                     @for (item of [2,5,10,15]; track $index) {
+                         <option [value]="item">{{ item }}</option>
+                     }
+                </select>
+            </div>
             <ngx-datatable
                 class="ngx-datatable material"
                 [rows]="products"
@@ -43,10 +36,12 @@ import { RouterLink } from "@angular/router";
                 [footerHeight]="50"
                 rowHeight="auto"
                 [externalPaging]="false"
-                [count]="products.length"
-                [offset]="1"
-                [limit]="2"
+                [count]="totalElements"
+                [offset]="pageNumber"
+                [limit]="pageSize"
+                [externalPaging]="true"
                 [columnMode]="'flex'"
+                (page)="onPage($event)"
             >
             <!-- Name Column -->
                 <ngx-datatable-column [flexGrow]="1" name="Id" prop="id"></ngx-datatable-column>
@@ -66,28 +61,44 @@ import { RouterLink } from "@angular/router";
                 </ngx-datatable-column>
             </ngx-datatable>
         </div>
-        <div *ngIf="isEmpty">
-            <h2>No hay resultados</h2>
-        </div>
     </div>
     
     `,
-    imports: [CommonModule, NgxDatatableModule, RouterLink]
+    imports: [CommonModule, NgxDatatableModule, RouterLink, FormsModule]
 })
 
 export default class ProductListComponent {
     products!: ProductListItem[];
     loading = true
     isEmpty = false
+    totalElements = 0;
+    pageNumber = 0;
+    pageSize = 5;
     constructor(private productService: ProductService, private notificationService: NotificationService) { }
 
     ngOnInit(): void {
-        const page = 0;
-        const size = 5;
-        this.productService.getAllProducts(page, size).subscribe({
+        this.fetchData()
+    }
+
+    onPage(e: PageEvent) {
+        this.pageNumber = e.offset
+        this.fetchData()
+    }
+
+    pageSelectChange() {
+        console.log("Page size "+this.pageSize)
+        this.fetchData()
+    }
+
+    fetchData(){
+        this.productService.getAllProducts(this.pageNumber, this.pageSize).subscribe({
             next: (response) => {
+                console.log("Total Elem "+this.totalElements)
                 this.loading = false;
-                console.log(response.content)
+                console.log(response)
+                this.totalElements = response.totalElements;
+                this.pageNumber = response.page;
+                this.pageSize = response.size;
                 this.products = response.content;
             },
             error: (err) => {
