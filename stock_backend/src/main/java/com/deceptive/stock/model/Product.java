@@ -1,14 +1,16 @@
 package com.deceptive.stock.model;
 
+import com.deceptive.stock.model.audit.DateAudit;
 import com.deceptive.stock.model.audit.UserDateAudit;
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.util.Set;
 
 
 @Table
 @Entity
-public class Product {
+public class Product extends DateAudit {
      @Id
      @SequenceGenerator(
              name = "product_id_sequence",
@@ -62,7 +64,9 @@ public class Product {
     public Product(String name,
                    String description,
                    Brand brand,
-                   Set<Category> categories) {
+                   Set<Category> categories,
+                   Instant dateTime) {
+        super();
         this.name = name;
         this.description = description;
         this.brand = brand;

@@ -1,12 +1,13 @@
 package com.deceptive.stock.model;
 
+import com.deceptive.stock.model.audit.DateAudit;
 import jakarta.persistence.*;
 
 import java.util.Set;
 
 @Table
 @Entity
-public class Entry{
+public class Entry extends DateAudit {
     @Id
     @SequenceGenerator(
             name = "entry_id_sequence",

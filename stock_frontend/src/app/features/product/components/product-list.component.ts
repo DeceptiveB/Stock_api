@@ -13,14 +13,19 @@ import { FormControl, FormsModule } from "@angular/forms";
     styles: [],
     template: `
     <div class="container mt-5">
-        <div>
-            <h1 class="">Products</h1>
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>Products</h1>
+            </div>
+            <div class="col-sm-6 text-sm-end d-flex">
+                <a class="btn btn btn-success" [routerLink]="['/product/edit']">New  Product</a>
+            </div>
         </div>
         <hr>
         <div *ngIf="loading">
             Cargando resultados
         </div>
-        <div *ngIf="!loading && !isEmpty">
+        <div class="mb-4" *ngIf="!loading && !isEmpty">
             <div class="col-lg-2 mb-3">
                 <select [(ngModel)]="pageSize" (change)="pageSelectChange()" class="form-select" name="" id="">
                      @for (item of [2,5,10,15]; track $index) {

@@ -13,7 +13,7 @@ import java.time.Instant;
         value = { "createdBY", "updatedBy" },
         allowGetters = true
 )
-public class UserDateAudit extends DateAudit{
+public abstract class UserDateAudit extends DateAudit{
     private static final long serialVersionUID = 1L;
 
     @CreatedBy
@@ -23,10 +23,6 @@ public class UserDateAudit extends DateAudit{
     @LastModifiedBy
     private Integer updatedBy;
 
-
-    public UserDateAudit(Instant createdAt, Instant updatedAt) {
-        super(createdAt, updatedAt);
-    }
 
     public Integer getCreatedBy() {
         return createdBy;

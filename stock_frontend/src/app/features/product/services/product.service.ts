@@ -73,8 +73,8 @@ export class ProductService {
         const data = {
             name: req.name,
             brand: req.brand,
-            description: req.brand,
-            categories: []
+            description: req.description,
+            categories: req.categories
         }
         formData.append("image", req.image);
         formData.append("data", JSON.stringify(data))
@@ -103,7 +103,7 @@ export class ProductService {
         formData.append("data", JSON.stringify(data))
 
         var apiUrl = this.apiUrl + "/api/product/"+productId;
-
+        
         console.log(data)
 
         return this.http.put<any>(apiUrl, formData, {

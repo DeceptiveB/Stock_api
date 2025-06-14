@@ -156,8 +156,8 @@ export default class EditInsertProductComponent {
                         this.uploadProgress = 100;
                         this.notificationService.show({
                             message: 'Product updated succesfully',
-                            title: "New product",
-                            subtitle: "added",
+                            title: "Product updated",
+                            subtitle: "update",
                             duration: 3000
                         });
                     }
@@ -182,9 +182,9 @@ export default class EditInsertProductComponent {
                     } else if (event.type === HttpEventType.Response) {
                         this.uploadProgress = 100;
                         this.notificationService.show({
-                            message: 'Product updated succesfully',
+                            message: 'Product created succesfully',
                             title: "New product",
-                            subtitle: "added",
+                            subtitle: "add",
                             duration: 3000
                         });
                     }
