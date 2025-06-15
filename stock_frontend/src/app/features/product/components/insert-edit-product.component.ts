@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { ProductRequest } from "../models/product-insert-request.model";
 import { ProductService } from "../services/product.service";
 import { ImagePreviewProduct } from "../../entry/components/image-preview.component";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { NotificationService } from "../../../shared/components/toast/services/notification.service";
 import { HttpEventType } from "@angular/common/http";
 import BrandSelectComponent from "../../brand/component/brandSelect/brand-select.component";
@@ -104,7 +104,8 @@ export default class EditInsertProductComponent {
     constructor(private route: ActivatedRoute,
         private fb: FormBuilder,
         private productService: ProductService,
-        private notificationService: NotificationService) {
+        private notificationService: NotificationService,
+        private router: Router ) {
         this.uploadForm = this.fb.group(
             {
                 image: [null],
@@ -187,7 +188,10 @@ export default class EditInsertProductComponent {
                             subtitle: "add",
                             duration: 3000
                         });
+                        console.log(event)
+                        this.router.navigate(["/product/edit/", event.body.id])
                     }
+
                 },
                 error: (error) => {
                     this.notificationService.show({

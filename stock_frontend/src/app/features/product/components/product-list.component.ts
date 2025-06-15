@@ -17,7 +17,7 @@ import { FormControl, FormsModule } from "@angular/forms";
             <div class="col-sm-6">
                 <h1>Products</h1>
             </div>
-            <div class="col-sm-6 text-sm-end d-flex">
+            <div class="col-sm-6 text-sm-end text-end d-flex justify-content-sm-end align-items-sm-end">
                 <a class="btn btn btn-success" [routerLink]="['/product/edit']">New  Product</a>
             </div>
         </div>
