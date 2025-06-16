@@ -69,8 +69,8 @@ export default class BrandInsertComponent {
         this.brandService.saveBrand(brandName).subscribe({
             next: (event) => {
                 this.notificationService.show({
-                    message: 'Product updated succesfully',
-                    title: "New product",
+                    message: 'Brand added succesfully',
+                    title: "New brand",
                     subtitle: "added",
                     duration: 3000
                 });
@@ -79,7 +79,7 @@ export default class BrandInsertComponent {
                 this.notificationService.show({
                     message: "Request failed!",
                     title: "Error",
-                    subtitle: "Product",
+                    subtitle: "Brand",
                     duration: 3000
                 });
                 console.log('Request failed', error)

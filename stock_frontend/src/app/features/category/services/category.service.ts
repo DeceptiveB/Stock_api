@@ -17,4 +17,14 @@ export class CategoryService {
             headers: { "Content-Type": "application/json" }
         })
     }
+
+    saveCategory(name: string) {
+        const data = {
+            name: name
+        }
+        var apiUrl = this.apiUrl + "/api/category";
+        return this.http.post(apiUrl, data, {
+            headers: { "Content-Type": "application/json" }
+        })
+    }
 }
