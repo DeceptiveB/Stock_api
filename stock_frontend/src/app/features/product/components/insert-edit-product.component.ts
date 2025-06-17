@@ -11,6 +11,7 @@ import { BrandListItem } from "../../brand/models/brand-list-item.model";
 import BrandInsertComponent from "../../brand/component/InsertBrandFormModal/brand-insert.component";
 import CategoryMultiSelectComponent from "../../category/components/category-multi-select.component";
 import { CategoryListItem } from "../../category/models/category-list-item.model";
+import CategoryInsertModalComponent from "../../category/components/insertCategroyFormModal/category-insert.component";
 
 @Component(
     {
@@ -47,7 +48,7 @@ import { CategoryListItem } from "../../category/models/category-list-item.model
                     ></app-brand-select>
                     <button 
                         type="button" 
-                        (click)="modal.show()" 
+                        (click)="brandModal.show()" 
                         class="btn btn-success mt-2">Add Brand</button>
                 </div>
                 <div class="mb-3 col-lg-6 col-md-6 col-12">
@@ -56,6 +57,10 @@ import { CategoryListItem } from "../../category/models/category-list-item.model
                         [control]="categoriesControl"
                         [productCategories]="categories"
                     ></app-category-select>
+                    <button 
+                        type="button" 
+                        (click)="categoryModal.show()" 
+                        class="btn btn-success mt-2">Add Category</button>
                 </div>
                 <div class="mb-3 col-lg-12 col-md-12 col-12">
                     <label class="form-label" for="file">Description</label>
@@ -73,16 +78,20 @@ import { CategoryListItem } from "../../category/models/category-list-item.model
                 (error)="onImageError()"
             ></app-product-image-preview>
             <app-brand-insert
-              #modal>
+              #brandModal>
             </app-brand-insert>
+            <app-category-insert
+            #categoryModal>
+            </app-category-insert>
         </div>
         `,
-        imports: [ReactiveFormsModule, 
-            ImagePreviewProduct, 
-            BrandSelectComponent, 
-            BrandInsertComponent,
-            CategoryMultiSelectComponent
-        ],
+        imports: [
+                ReactiveFormsModule,
+                ImagePreviewProduct,
+                BrandSelectComponent,
+                BrandInsertComponent,
+                CategoryMultiSelectComponent, 
+                CategoryInsertModalComponent],
     }
 )
 
