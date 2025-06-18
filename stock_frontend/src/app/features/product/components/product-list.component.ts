@@ -91,16 +91,13 @@ export default class ProductListComponent {
     }
 
     pageSelectChange() {
-        console.log("Page size "+this.pageSize)
         this.fetchData()
     }
 
     fetchData(){
         this.productService.getAllProducts(this.pageNumber, this.pageSize).subscribe({
             next: (response) => {
-                console.log("Total Elem "+this.totalElements)
                 this.loading = false;
-                console.log(response)
                 this.totalElements = response.totalElements;
                 this.pageNumber = response.page;
                 this.pageSize = response.size;

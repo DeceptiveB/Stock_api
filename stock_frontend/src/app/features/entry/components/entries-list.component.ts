@@ -7,6 +7,8 @@ import { response } from "express";
 import { EntryItemComponent } from "./entry-item.component";
 import { HttpClient } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
+import { NgxDatatableModule, PageEvent } from "@swimlane/ngx-datatable";
+import { RouterLink } from "@angular/router";
 
 @Component({
     selector: 'app-entry-list',
@@ -17,30 +19,79 @@ import { CommonModule } from "@angular/common";
         </div>
         <hr>
         <div *ngIf="!isEmpty">
-            @for (entry of entries; track entry.id) {
-                <app-entry-item [entry]="entry"></app-entry-item>
-            }
+            <ngx-datatable
+                class="ngx-datatable material"
+                [rows]="entries"
+                [columns]="[{ name: 'Name' }, { name: 'Description' }, { name: 'Brand' }]"
+                [headerHeight]="50"
+                [footerHeight]="50"
+                rowHeight="auto"
+                [externalPaging]="false"
+                [count]="totalElements"
+                [offset]="pageNumber"
+                [limit]="pageSize"
+                [externalPaging]="true"
+                [columnMode]="'flex'"
+                (page)="onPage($event)"
+            >
+            <!-- Name Column -->
+                <ngx-datatable-column [flexGrow]="1" name="Id" prop="id">
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="2" name="Name" prop="product.name"></ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="2" name="Quantity" prop="quantity"></ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1" name="Image" prop="product.image">
+                    <ng-template let-value="value" ngx-datatable-cell-template #name>
+                        <img src="{{value}}" class="w-100" alt="">
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <!-- Price Column -->
+                <ngx-datatable-column [flexGrow]="1" name="Actions" [sortable]="false">
+                    <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <a routerLinkActive="router-link-active" [routerLink]="['/entry/edit', row.id]" class="btn btn-sm btn-primary me-2">Edit</a>
+                    </ng-template>
+                </ngx-datatable-column>
+            </ngx-datatable>
         </div>
+        
         <div *ngIf="isEmpty">
             <h2>No hay resultados</h2>
         </div>
     </div>
     `,
-    imports: [EntryItemComponent, CommonModule],
+    imports: [CommonModule, NgxDatatableModule, RouterLink],
 })
 
 export default class EntryListComponent implements OnInit {
     entries:Entry[] = [];
     totalRecords: number = 0;
     isEmpty = false;
+    totalElements = 0;
+    pageNumber = 0;
+    loading = true;
+    pageSize = 0;
 
     constructor(private entryService: EntryService){}
+
+    onPage(e: PageEvent) {
+
+    }
 
     ngOnInit(): void {
         const page = 0;
         const size = 5;
-        this.entryService.getEntries(page, size).subscribe({
+        this.fetchData()
+    }
+
+    fetchData() {
+        this.entryService.getEntries(this.pageNumber, this.pageSize).subscribe({
             next: (response) => {
+                this.loading = false;
+                this.totalElements = response.totalElements;
+                this.pageNumber = response.page;
+                this.pageSize = response.size;
                 console.log(response.content[0].quantity)
                 this.entries = response.content
                 console.log(this.entries[0].product)
@@ -48,8 +99,7 @@ export default class EntryListComponent implements OnInit {
             error:  (error) => {
                 console.log(error)
                 this.isEmpty = true
-            }
-            
+            } 
         });
     }
 }
