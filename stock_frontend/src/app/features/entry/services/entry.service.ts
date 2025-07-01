@@ -15,6 +15,16 @@ export class EntryService {
 
   constructor(private readonly http: HttpClient) {}
 
+  saveEntry(name: string) {
+        const data = {
+            name: name
+        }
+        var apiUrl = this.apiUrl + "/api/category";
+        return this.http.post(apiUrl, data, {
+            headers: { "Content-Type": "application/json" }
+        })
+    }
+
   // Fetching a list of users (Array of objects)
   getEntries(page?: number, size?: number): Observable<ApiPageResponse<Entry[]>> {
     var apiUrl = this.apiUrl + "/api/entry";

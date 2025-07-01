@@ -50,15 +50,20 @@ import { FormControl, FormsModule } from "@angular/forms";
             >
             <!-- Name Column -->
                 <ngx-datatable-column [flexGrow]="1" name="Id" prop="id"></ngx-datatable-column>
+
                 <ngx-datatable-column [flexGrow]="1" name="Image" prop="image">
                     <ng-template let-value="value" ngx-datatable-cell-template #name>
                         <img src="{{value}}" class="w-100" alt="">
                     </ng-template>
                 </ngx-datatable-column>
+
                 <ngx-datatable-column [flexGrow]="2" name="Name" prop="name"></ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="2" name="Quantity" prop="quantity"></ngx-datatable-column>
 
                 <!-- Price Column -->
                 <ngx-datatable-column [flexGrow]="2" name="Description" prop="description"></ngx-datatable-column>
+                
                 <ngx-datatable-column [flexGrow]="1" name="Actions" [sortable]="false">
                     <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                         <a routerLinkActive="router-link-active" [routerLink]="['/product/edit', row.id]" class="btn btn-sm btn-primary me-2">Edit</a>

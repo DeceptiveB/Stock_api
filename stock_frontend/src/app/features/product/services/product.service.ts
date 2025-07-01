@@ -64,7 +64,13 @@ export class ProductService {
         }
 
         return this.http.get<ApiPageResponse<ProductListItem[]>>(apiUrl, {params});
-          
+    }
+
+    getProductsByName(name: string){
+        var apiUrl = this.apiUrl + "/api/product?name="+name;
+        return this.http.get<any>(apiUrl, {
+            headers: { "Content-Type": "application/json" }
+        })
     }
 
     insertProduct(req: ProductRequest): Observable<HttpEvent<any>> {

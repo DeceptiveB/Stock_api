@@ -4,18 +4,26 @@ import { Entry } from "../models/entry.model";
 import { EntryService } from "../services/entry.service";
 import { ApiPageResponse } from "../../../models/apipage.model";
 import { response } from "express";
-import { EntryItemComponent } from "./entry-item.component";
 import { HttpClient } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { NgxDatatableModule, PageEvent } from "@swimlane/ngx-datatable";
 import { RouterLink } from "@angular/router";
+import EditInsertEntryComponent from "./insertEditEntryFormModal/insert-edit-entry.component";
 
 @Component({
     selector: 'app-entry-list',
     template: `
     <div class="container mt-5">
-        <div>
-            <h1>Entries</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Entries</h1>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <button 
+                    type="button" 
+                    (click)="modalEditEntry.show()" 
+                    class="btn btn-success mt-2">New Entry</button>
+            </div>
         </div>
         <hr>
         <div *ngIf="!isEmpty">
@@ -60,8 +68,11 @@ import { RouterLink } from "@angular/router";
             <h2>No hay resultados</h2>
         </div>
     </div>
+    <app-edit-entry
+    #modalEditEntry>
+    </app-edit-entry>
     `,
-    imports: [CommonModule, NgxDatatableModule, RouterLink],
+    imports: [CommonModule, NgxDatatableModule, RouterLink, EditInsertEntryComponent],
 })
 
 export default class EntryListComponent implements OnInit {

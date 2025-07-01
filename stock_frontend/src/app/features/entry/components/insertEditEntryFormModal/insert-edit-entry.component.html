@@ -1,0 +1,30 @@
+<div [ngClass]="{ 'modal-fade-in': fade, 'modal-fade-out': !fade }" *ngIf="visible" style="display: block;"
+    class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form (ngSubmit)="confirm()" [formGroup]="entryForm" class="row">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">New Entry</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3 col-lg-12 col-md-12 col-12">
+                        <label class="form-label" for="file">Product</label>
+                        <input class="form-control" name="name" type="text" formControlName="name" id="name">
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3 col-lg-12 col-md-12 col-12">
+                        <label class="form-label" for="file">Quantity</label>
+                        <input class="form-control" name="name" type="text" formControlName="name" id="name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        (click)="close()">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
