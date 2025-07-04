@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/product")
@@ -29,13 +30,14 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<PagedResponse<ProductResponse>> getProducts(
+            @RequestParam Map<String, String> params,
             @RequestParam(value = "page",
                           required = false,
                           defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) Integer page,
             @RequestParam(value = "size",
                           required = false,
                           defaultValue = AppConstants.DEFAULT_PAGE_SIZE) Integer size){
-        return ResponseEntity.ok().body(productService.getAllProducts(page, size));
+        return ResponseEntity.ok().body(productService.getAllProducts(params, page, size));
     }
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProduct(

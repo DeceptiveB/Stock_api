@@ -13,6 +13,7 @@ import com.deceptive.stock.repo.BrandRepo;
 import com.deceptive.stock.repo.CategoryRepo;
 import com.deceptive.stock.repo.ProductRepo;
 import com.deceptive.stock.service.ProductService;
+import com.deceptive.stock.specification.ProductSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +32,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -92,9 +95,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PagedResponse<ProductResponse> getAllProducts(int page, int size) {
+    public PagedResponse<ProductResponse> getAllProducts(Map<String, String> params, int page, int size) {
+        String name = params.get("name");
         Pageable pageable = PageRequest.of(page, size);
-        Page<Product> productPage = productRepo.findAll(pageable);
+        Specification<Product> spec = ProductSpecification.filterBy(name);
+        Page<Product> productPage = productRepo.findAll(spec, pageable);
         List<ProductResponse> productResponses = productPage.
                 stream().
                 map(product -> prodResMapper.apply(product)).

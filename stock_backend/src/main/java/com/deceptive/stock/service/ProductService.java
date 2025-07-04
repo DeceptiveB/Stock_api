@@ -8,11 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
     Product updateProduct(Integer id, ProductRequest productRequest, MultipartFile image);
 
-    PagedResponse<ProductResponse> getAllProducts(int page, int size);
+    PagedResponse<ProductResponse> getAllProducts(Map<String, String> params, int page, int size);
 
     ProductResponse getProductById(Integer id);
 
