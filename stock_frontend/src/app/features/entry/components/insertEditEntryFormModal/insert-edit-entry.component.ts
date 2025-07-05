@@ -8,11 +8,12 @@ import {
 } from '@angular/forms';
 import { EntryService } from '../../services/entry.service';
 import { NotificationService } from '../../../../shared/components/toast/services/notification.service';
+import ProductSelectComponent from '../../../product/components/product-select.component';
 
 @Component({
   selector: 'app-edit-entry',
   templateUrl: './insert-edit-entry.component.html',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, ProductSelectComponent],
   styles: `
         .modal-fade-in {
             animation: fadeIn 0.3s ease-in;
