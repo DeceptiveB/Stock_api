@@ -10,13 +10,16 @@
                 <div class="modal-body">
                     <div class="mb-3 col-lg-12 col-md-12 col-12">
                         <label class="form-label" for="file">Product</label>
-                        <app-product-select></app-product-select>
+                        <app-product-select
+                        [control]="productControl"
+                        [productItem]="productItem"
+                        ></app-product-select>
                     </div>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3 col-lg-12 col-md-12 col-12">
                         <label class="form-label" for="file">Quantity</label>
-                        <input class="form-control" name="name" type="text" formControlName="name" id="name">
+                        <input class="form-control" name="quantity" type="text" formControlName="quantity" id="quantity">
                     </div>
                 </div>
                 <div class="modal-footer">

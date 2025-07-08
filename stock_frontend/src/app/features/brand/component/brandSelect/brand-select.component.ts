@@ -1,5 +1,5 @@
 import { Component, Input, SimpleChanges } from "@angular/core";
-import {NgLabelTemplateDirective, NgOptionComponent, NgOptionTemplateDirective, NgSelectComponent} from "@ng-select/ng-select";
+import { NgSelectComponent} from "@ng-select/ng-select";
 import { BrandListItem } from "../../models/brand-list-item.model";
 import { BrandService } from "../../service/brand.service";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";

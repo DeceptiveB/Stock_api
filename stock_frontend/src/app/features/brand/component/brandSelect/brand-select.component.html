@@ -1,2 +1,9 @@
-<ng-select [formControl]="control" (change)="selectItem($event)" name="brand" (search)="changeBrands($event)" [items]="brandList" bindLabel="name" bindValue="name">
+<ng-select 
+    [formControl]="control" 
+    (change)="selectItem($event)" 
+    name="brand" 
+    (search)="changeBrands($event)" 
+    [items]="brandList" 
+    bindLabel="name" 
+    bindValue="name">
 </ng-select>

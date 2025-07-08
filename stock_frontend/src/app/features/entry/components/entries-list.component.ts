@@ -68,8 +68,7 @@ import EditInsertEntryComponent from "./insertEditEntryFormModal/insert-edit-ent
             <h2>No hay resultados</h2>
         </div>
     </div>
-    <app-edit-entry
-    #modalEditEntry>
+    <app-edit-entry #modalEditEntry>
     </app-edit-entry>
     `,
     imports: [CommonModule, NgxDatatableModule, RouterLink, EditInsertEntryComponent],
