@@ -64,9 +64,11 @@ export default class EditInsertEntryComponent {
         if (this.entryForm.invalid) return;
     }
 
-    show() {
+    show(id?:number) {
         this.visible = true;
         this.fade = true;
+        console.log("id"+id);
+        
 
         return this.visible;
     }

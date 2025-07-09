@@ -58,7 +58,7 @@ import EditInsertEntryComponent from "./insertEditEntryFormModal/insert-edit-ent
                 <!-- Price Column -->
                 <ngx-datatable-column [flexGrow]="1" name="Actions" [sortable]="false">
                     <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                        <a routerLinkActive="router-link-active" [routerLink]="['/entry/edit', row.id]" class="btn btn-sm btn-primary me-2">Edit</a>
+                        <a routerLinkActive="router-link-active" (click)="modalEditEntry.show(row.id)"  class="btn btn-sm btn-primary me-2">Edit</a>
                     </ng-template>
                 </ngx-datatable-column>
             </ngx-datatable>
@@ -71,7 +71,7 @@ import EditInsertEntryComponent from "./insertEditEntryFormModal/insert-edit-ent
     <app-edit-entry #modalEditEntry>
     </app-edit-entry>
     `,
-    imports: [CommonModule, NgxDatatableModule, RouterLink, EditInsertEntryComponent],
+    imports: [CommonModule, NgxDatatableModule, EditInsertEntryComponent],
 })
 
 export default class EntryListComponent implements OnInit {
