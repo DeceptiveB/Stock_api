@@ -15,11 +15,12 @@ export class EntryService {
 
   constructor(private readonly http: HttpClient) {}
 
-  saveEntry(name: string) {
+  saveEntry(id: number, quantity: number) {
         const data = {
-            name: name
+            product_id: id,
+            quantity: quantity
         }
-        var apiUrl = this.apiUrl + "/api/category";
+        var apiUrl = this.apiUrl + "/api/product";
         return this.http.post(apiUrl, data, {
             headers: { "Content-Type": "application/json" }
         })

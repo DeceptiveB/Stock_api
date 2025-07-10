@@ -82,9 +82,12 @@ export default class EditInsertEntryComponent {
 
     confirm() {
         if (this.entryForm.invalid) return;
-        const productName = this.entryForm.get('name')?.value;
+        const productId = this.entryForm.get('product')?.value;
+        const quantity = this.entryForm.get('quantity')?.value;
+        console.log(productId);
+        
         this.confirmed.emit();
-        this.entryService.saveEntry(productName).subscribe({
+        this.entryService.saveEntry(productId, quantity).subscribe({
             next: (event) => {
                 this.notificationService.show({
                     message: 'Category added succesfully',
