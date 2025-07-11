@@ -90,7 +90,7 @@ export default class EditInsertEntryComponent {
         this.entryService.saveEntry(productId, quantity).subscribe({
             next: (event) => {
                 this.notificationService.show({
-                    message: 'Category added succesfully',
+                    message: 'Entry added succesfully',
                     title: 'New category',
                     subtitle: 'added',
                     duration: 3000,
@@ -100,7 +100,7 @@ export default class EditInsertEntryComponent {
                 this.notificationService.show({
                     message: 'Request failed!',
                     title: 'Error',
-                    subtitle: 'Category',
+                    subtitle: 'Entry',
                     duration: 3000,
                 });
                 console.log('Request failed', error);

@@ -20,7 +20,8 @@ export class EntryService {
             product_id: id,
             quantity: quantity
         }
-        var apiUrl = this.apiUrl + "/api/product";
+        console.log(data)
+        var apiUrl = this.apiUrl + "/api/entry";
         return this.http.post(apiUrl, data, {
             headers: { "Content-Type": "application/json" }
         })

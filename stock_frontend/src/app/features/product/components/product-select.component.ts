@@ -13,7 +13,7 @@ import { ProductListSelectItem } from '../models/product-list-select.model';
         (change)="selectItem($event)"
         name="product"
         (search)="changeProducts($event)"
-        bindValue="name"
+        bindValue="id"
         bindLabel="name"
     >
     </ng-select>`,
@@ -41,7 +41,7 @@ export default class ProductSelectComponent {
     }
 
     selectItem(item: ProductListSelectItem): void {
-        this.control.setValue(item.name);
+        this.control.setValue(item.id);
     }
 
     changeProducts(event: { term: string; items: any[] }) {
